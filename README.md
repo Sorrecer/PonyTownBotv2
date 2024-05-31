@@ -7,7 +7,7 @@ A Simple ChatBot for Pony Town
 ### Installation
 1. **Clone the Repository:** You can clone this repository using the following command:
    ```
-   git clone https://github.com/RandSfk/PonyTown_Bot.git
+   git clone https://github.com/RandSfk/PonyTownBotv2
    ```
    Or download the repository directly from the GitHub page.
 
@@ -35,7 +35,7 @@ A Simple ChatBot for Pony Town
 MIT License
 
 ```
-Copyright (c) 2024 Randy Nurdiansyah
+Copyright (c) 2024 Kenny Anaga
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
