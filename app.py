@@ -48,6 +48,19 @@ def calculate_love_percentage(name1, name2):
     
     return percentage
 
+def calculate_furry_percentage(name1):
+    # Hashing kombinasi nama menggunakan SHA256
+    hash_object = hashlib.sha256(name1.encode())
+    hex_dig = hash_object.hexdigest()
+    
+    # Mengambil 2 karakter pertama dari hash dan mengubahnya menjadi integer
+    hash_int = int(hex_dig[:2], 16)
+    
+    # Menghitung persentase kecocokan dari 0 hingga 100
+    percentage = hash_int % 101
+    
+    return percentage
+
 def hit_card():
     return random.randint(1, 10)
 
@@ -352,7 +365,7 @@ while True:
         kirim_pesan(">cointoss >slot >blackjack >roullete")
 
     elif ">fun" in text_cmd.lower():
-        kirim_pesan(">nama_keren >quotes >puja >jodoh [nama1] [nama2]")
+        kirim_pesan(">quotes >puja >furry [nama] >jodoh [nama1] [nama2]")
 
     elif ">lainnya" in text_cmd.lower():
         kirim_pesan(">ceramah, >ai [prompt anda], >py!!kode anda!!")
@@ -597,6 +610,21 @@ while True:
             else :
                 percentage = calculate_love_percentage(name1, name2)
             kirim_pesan(f"Kecocokan jodoh antara {name1} dan {name2} adalah {percentage}%")
+
+    elif ">furry" in text_cmd.lower():
+        match = re.search(r'>furry \[([^\]]+)\]', text_cmd)
+        if match:
+            username = match.group(1)
+            percentage = calculate_furry_percentage(username)
+            kirim_pesan(f"Tingkat furry {username} adalah {percentage}%")
+            if percentage < 30:
+                kirim_pesan(f"Selamat! Anda normal!")
+            elif 30 <= percentage < 60:
+                kirim_pesan(f"Bau furry dikit :ok_hand:")
+            elif 60 <= percentage < 90:
+                kirim_pesan(f"Raaawwwwwrrr :wolf_face:")
+            else :
+                kirim_pesan(f":wolf_face: SOLID!! SOLID!! SOLID!! :wolf_face:")
 
     # # Function to play the game
     # elif ">box" in text_cmd.lower():
