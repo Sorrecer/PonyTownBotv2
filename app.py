@@ -48,6 +48,18 @@ def calculate_love_percentage(name1, name2):
     
     return percentage
 
+def suit(name1, name2, suit1, suit2):
+    #condition 1
+    if suit1 == suit2 :
+        kirim_pesan(f'seri! kedua pemain telah memilih {suit1}')
+    elif (suit1 == 'gunting' and suit2 == 'kertas') or \
+        (suit1 == 'batu' and suit2 == 'gunting') or \
+        (suit1 == 'kertas' and suit2 == 'batu'):
+        kirim_pesan(f'{suit1} vs {suit2}. {name2} kalah! {name1} menang!')
+    else:
+        kirim_pesan(f'{suit1} vs {suit2}. {name1} kalah! {name2} menang!')
+
+
 def calculate_furry_percentage(name1):
     # Hashing kombinasi nama menggunakan SHA256
     hash_object = hashlib.sha256(name1.encode())
@@ -625,6 +637,25 @@ while True:
                 kirim_pesan(f"Raaawwwwwrrr :wolf_face:")
             else :
                 kirim_pesan(f":wolf_face: SOLID!! SOLID!! SOLID!! :wolf_face:")
+
+    elif ">suit" in text_cmd.lower():
+        over = False
+        matches = re.findall(r'\[([^\]]+)\] whispers: >suit (.+)', text_cmd)
+        for match in matches:
+            name1 = match[0]
+            suit1 = match[1]
+            kirim_pesan(f'{name1} menantang anda pada gunting batu kertas')
+            while not over:
+                screen = pyautogui.screenshot()
+                screen = screen.crop((110, 270, 1100, 600))
+                text_cmd = pytesseract.image_to_string(screen)
+                if ">suit" in text_cmd.lower():
+                    matches = re.findall(r'\[([^\]]+)\] whispers: >suit (.+)', text_cmd)
+                    for match in matches:
+                        name2 = match[0]
+                        suit2 = match[1]
+                        suit(name1, name2, suit1, suit2)
+                        over = True
 
     # # Function to play the game
     # elif ">box" in text_cmd.lower():
