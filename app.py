@@ -301,7 +301,7 @@ def gemini(meseg):
                 "role": "user",
                 "parts": [
                     {
-                        "text": meseg+" dalam 60 huruf"
+                        "text": meseg+". (jawab dengan sangat singkat, kurang dari 60 karakter)"
                     }
                 ]
             }
