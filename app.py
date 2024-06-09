@@ -76,6 +76,65 @@ def calculate_furry_percentage(name1):
 def hit_card():
     return random.randint(1, 10)
 
+def steal(name1, name2):
+    items = [
+        "Kaos Kaki Kiri",
+        "Kata Sandi Wi-Fi",
+        "Lampu Kulkas",
+        "Baterai Remote TV",
+        "Camilan",
+        "Harga Diri",
+        "Bantal Sofa",
+        "Remote TV",
+        "Seprai",
+        "Potongan Pizza Terakhir",
+        "Bantal Memory Foam",
+        "Pulpen Keberuntungan",
+        "Pengisi Daya Ponsel",
+        "Kunci Rumah",
+        "Gulungan Tisu Toilet",
+        "Sisa Shampoo Terakhir",
+        "Selimut Favorit",
+        "Kesabaran",
+        "Payung",
+        "Buku Harian Pribadi",
+        "Pengaturan Termostat",
+        "Kacamata Hitam",
+        "Sikat Gigi",
+        "Resep Rahasia",
+        "Jam Alarm",
+        "Penanda Buku",
+        "Hoodie Favorit",
+        "Ingatan",
+        "Selera Humor",
+        "Kata Sandi",
+        "Buku Favorit",
+        "Lilin Beraroma",
+        "Kursi",
+        "Mug",
+        "Tanaman",
+        "Makanan",
+        "Kaos Kaki",
+        "Deterjen Laundry",
+        "Sepatu Olahraga",
+        "Mainan aneh",
+        "Playlist Favorit",
+        "Router Wi-Fi",
+        "Identitas",
+        "Botol Air Minum",
+        "Surat Cinta",
+        "Waktu Tidur Siang",
+        "Nasi Padang",
+        "Sempak",
+        "Duit 10rb",
+        "Duit 1M",
+        "Duit 271T",
+        "KTP"
+    ]
+    item = random.choice(items)
+    kirim_pesan(f"{name1} telah mencuri {item} dari {name2}!")
+
+
 def is_on_cooldown(username):
     if username in Admin_name:
         return False
@@ -194,55 +253,55 @@ def menu(username):
         time.sleep(2)
         adminmenu()
 
-    elif username == "Selvi":
-        pesan_salam = f"Hallo Nyonya agung [{username}], Sekarang Jam: {current_hour}:{current_minute}"
-        kirim_pesan(pesan_salam)
-        kirim_pesan(f"Apa yang nyonya {username} inginkan?")
-        time.sleep(4)
-        kirim_pesan("Menu yang tersedia:")
-        time.sleep(2)
-        adminmenu()
+    # elif username == "Selvi":
+    #     pesan_salam = f"Hallo Nyonya agung [{username}], Sekarang Jam: {current_hour}:{current_minute}"
+    #     kirim_pesan(pesan_salam)
+    #     kirim_pesan(f"Apa yang nyonya {username} inginkan?")
+    #     time.sleep(4)
+    #     kirim_pesan("Menu yang tersedia:")
+    #     time.sleep(2)
+    #     adminmenu()
     else:
         menu()
         
 
-def generate_cool_name(name):
-    adjectives = ['Mighty', 'Sleek', 'Shadow', 'Blaze', 'Thunder', 'Eternal', 'Epic', 'Ninja', 'Alpha', 'Omega']
-    nouns = ['Phoenix', 'Dragon', 'Wolf', 'Storm', 'Tiger', 'Sword', 'Warrior', 'Legend', 'Hero', 'Knight']
+# def generate_cool_name(name):
+#     adjectives = ['Mighty', 'Sleek', 'Shadow', 'Blaze', 'Thunder', 'Eternal', 'Epic', 'Ninja', 'Alpha', 'Omega']
+#     nouns = ['Phoenix', 'Dragon', 'Wolf', 'Storm', 'Tiger', 'Sword', 'Warrior', 'Legend', 'Hero', 'Knight']
     
-    name_parts = name.split()
+#     name_parts = name.split()
     
-    num_adjectives = random.randint(1, min(len(name_parts), 2))
-    selected_adjectives = random.sample(adjectives, num_adjectives)
+#     num_adjectives = random.randint(1, min(len(name_parts), 2))
+#     selected_adjectives = random.sample(adjectives, num_adjectives)
     
-    cool_name = ' '.join(selected_adjectives + name_parts)
+#     cool_name = ' '.join(selected_adjectives + name_parts)
     
-    return cool_name
+#     return cool_name
 
-def warna_skin():
-    skin_colors = {
-        "Fair": "#F8E5DA",
-        "Light": "#F2D5BB",
-        "Medium": "#E5B887",
-        "Olive": "#B28D6A",
-        "Tan": "#8A694B",
-        "Deep": "#634834",
-        "Ebony": "#3C281D",
-        "Pale": "#FFE4C4",
-        "Caramel": "#FFA07A",
-        "Chestnut": "#CD5C5C",
-        "Mahogany": "#8B4513",
-        "Sable": "#705040",
-        "Mocha": "#462E1B",
-        "Honey": "#DAA520",
-        "Amber": "#FFBF00",
-        "Bronze": "#CD7F32",
-        "Cocoa": "#D2691E",
-        "Sienna": "#A0522D",
-        "Copper": "#B87333",
-        "Sepia": "#704214"
-    }
-    return skin_colors
+# def warna_skin():
+#     skin_colors = {
+#         "Fair": "#F8E5DA",
+#         "Light": "#F2D5BB",
+#         "Medium": "#E5B887",
+#         "Olive": "#B28D6A",
+#         "Tan": "#8A694B",
+#         "Deep": "#634834",
+#         "Ebony": "#3C281D",
+#         "Pale": "#FFE4C4",
+#         "Caramel": "#FFA07A",
+#         "Chestnut": "#CD5C5C",
+#         "Mahogany": "#8B4513",
+#         "Sable": "#705040",
+#         "Mocha": "#462E1B",
+#         "Honey": "#DAA520",
+#         "Amber": "#FFBF00",
+#         "Bronze": "#CD7F32",
+#         "Cocoa": "#D2691E",
+#         "Sienna": "#A0522D",
+#         "Copper": "#B87333",
+#         "Sepia": "#704214"
+#     }
+#     return skin_colors
 
 def nama_keren(username):
     cool_name = generate_cool_name(username)
@@ -291,6 +350,7 @@ def process_puji_command(username):
     ]
     
     kirim_pesan(random.choice(pujian))
+    
 def gemini(meseg):
     headers = {
         'Content-Type': 'application/json',
@@ -324,11 +384,7 @@ while True:
 ##########//////////// [ENGINE] //////////////////####################################################
     print("tes1")
     screen = pyautogui.screenshot()
-    screen = screen.crop((110, 270, 1100, 600))
-    
-
-    # screen.save("screenshot.png")
-    # img = Image.open("screenshot.png")
+    screen = screen.crop((110, 500, 1100, 800))
     text_cmd = pytesseract.image_to_string(screen)
     print(text_cmd)
     ### (Opsional)
@@ -520,7 +576,7 @@ while True:
         # Giliran pemain
         while loss == False :
             screen = pyautogui.screenshot()
-            screen = screen.crop((110, 270, 1100, 600))
+            screen = screen.crop((110, 500, 1100, 800))
             text_cmd = pytesseract.image_to_string(screen)
             if ">hit" in text_cmd.lower():
                 new_card = hit_card()
@@ -599,7 +655,7 @@ while True:
         kirim_pesan("tarik pelatuk? (tarik/tidak)")
         while mati == False :
             screen = pyautogui.screenshot()
-            screen = screen.crop((110, 270, 1100, 600))
+            screen = screen.crop((110, 500, 1100, 800))
             text_cmd = pytesseract.image_to_string(screen)
             if ">tarik" in text_cmd.lower():
                 if chambers[i]:
@@ -623,11 +679,21 @@ while True:
                 percentage = calculate_love_percentage(name1, name2)
             kirim_pesan(f"Kecocokan jodoh antara {name1} dan {name2} adalah {percentage}%")
 
+    elif ">steal" in text_cmd.lower():
+        matches = re.findall(r'\[([^\]]+)\] >steal \[([^\]]+)\]', text_cmd)
+        for match in matches:
+            name1 = match[0]
+            name2 = match[1]
+            steal(name1, name2)
+
     elif ">furry" in text_cmd.lower():
         match = re.search(r'>furry \[([^\]]+)\]', text_cmd)
         if match:
             username = match.group(1)
-            percentage = calculate_furry_percentage(username)
+            if (username == "Osi") or (username == "osi"):
+                percentage = 999999
+            else:
+                percentage = calculate_furry_percentage(username)
             kirim_pesan(f"Tingkat furry {username} adalah {percentage}%")
             if percentage < 30:
                 kirim_pesan(f"Selamat! Anda normal!")
@@ -635,8 +701,10 @@ while True:
                 kirim_pesan(f"Bau furry dikit :ok_hand:")
             elif 60 <= percentage < 90:
                 kirim_pesan(f"Raaawwwwwrrr :wolf_face:")
-            else :
+            elif 90 <= percentage <=100:
                 kirim_pesan(f":wolf_face: SOLID!! SOLID!! SOLID!! :wolf_face:")
+            else :
+                kirim_pesan(f":wolf_face: SEMBAH RAJA FURRY :wolf_face:")
 
     elif ">suit" in text_cmd.lower():
         over = False
@@ -647,7 +715,7 @@ while True:
             kirim_pesan(f'{name1} menantang anda pada gunting batu kertas')
             while not over:
                 screen = pyautogui.screenshot()
-                screen = screen.crop((110, 270, 1100, 600))
+                screen = screen.crop((110, 500, 1100, 800))
                 text_cmd = pytesseract.image_to_string(screen)
                 if ">suit" in text_cmd.lower():
                     matches = re.findall(r'\[([^\]]+)\] whispers: >suit (.+)', text_cmd)
@@ -683,105 +751,105 @@ while True:
         
 #######################//////////////////////////////////// [RPG] /////////////////////////////////################################
 
-    elif ".hunt" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] .hunt', text_cmd)
-        if match:
-            username = match.group(1)
-            if username in valid_username:
-                hasil_hunt = rpg.hunt(username)
-                kirim_pesan(hasil_hunt) 
+    # elif ".hunt" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] .hunt', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         if username in valid_username:
+    #             hasil_hunt = rpg.hunt(username)
+    #             kirim_pesan(hasil_hunt) 
 
-    elif ".gacha" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] .gacha', text_cmd)
-        if match:
-            username = match.group(1)
-            if username in valid_username:
-                hasil_gacha = rpg.gacha(username)
-                kirim_pesan(hasil_gacha)
+    # elif ".gacha" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] .gacha', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         if username in valid_username:
+    #             hasil_gacha = rpg.gacha(username)
+    #             kirim_pesan(hasil_gacha)
 
-    elif ".stats" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] .stats', text_cmd)
-        if match:
-            username = match.group(1)
-            if username in valid_username:
-                print(username)
-                character_info = rpg.view_status(username)
-                kirim_pesan(character_info)
+    # elif ".stats" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] .stats', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         if username in valid_username:
+    #             print(username)
+    #             character_info = rpg.view_status(username)
+    #             kirim_pesan(character_info)
 
-    elif ".inven" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] .inven', text_cmd)
-        if match:
-            username = match.group(1)
-            if username in valid_username:
-                print(username)
-                character_info = rpg.view_inventory(username)
-                kirim_pesan(character_info)
+    # elif ".inven" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] .inven', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         if username in valid_username:
+    #             print(username)
+    #             character_info = rpg.view_inventory(username)
+    #             kirim_pesan(character_info)
 
-    elif ".buy" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] .buy (\w+)', text_cmd)
-        if match:
-            username = match.group(1)
-            item = match.group(2)
-            if username in valid_username:
-                hasil_pembelian = rpg.buy(username, item)  
-                kirim_pesan(hasil_pembelian)
-    elif ".use" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] .use (\w+)', text_cmd)
-        if match:
-            username = match.group(1)
-            item = match.group(2)
-            if username in valid_username:
-                hasil_pembelian = rpg.use(username, item)  
-                kirim_pesan(hasil_pembelian)
+    # elif ".buy" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] .buy (\w+)', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         item = match.group(2)
+    #         if username in valid_username:
+    #             hasil_pembelian = rpg.buy(username, item)  
+    #             kirim_pesan(hasil_pembelian)
+    # elif ".use" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] .use (\w+)', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         item = match.group(2)
+    #         if username in valid_username:
+    #             hasil_pembelian = rpg.use(username, item)  
+    #             kirim_pesan(hasil_pembelian)
 
 #//////// ADMIN TOOL ////////////////////////////////////////////////////////////////////////////////////////////
 
-    elif "msih mau bandel ga?" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] msih mau bandel ga?', text_cmd)
-        if match:
-            username = match.group(1)
-            if username == 'Bepsii':
-                kirim_pesan("Ampun tidak tuan")
-            else:
-                kirim_pesan("Siapalu??")
+    # elif "msih mau bandel ga?" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] msih mau bandel ga?', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         if username == 'Bepsii':
+    #             kirim_pesan("Ampun tidak tuan")
+    #         else:
+    #             kirim_pesan("Siapalu??")
 
-    elif ".add" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] whispers: .add \[(.*?)\]', text_cmd)
-        if match:
-            username = match.group(1)
-            command = match.group(2)
-            if username in Admin_name:
-                n = add_username(command)
-                kirim_pesan(str(n))
+    # elif ".add" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] whispers: .add \[(.*?)\]', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         command = match.group(2)
+    #         if username in Admin_name:
+    #             n = add_username(command)
+    #             kirim_pesan(str(n))
 
-    elif ".rm" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] whispers: .rm \[(.*?)\]', text_cmd)
-        if match:
-            username = match.group(1)
-            command = match.group(2)
-            if username in Admin_name:
-                b = remove_username(command)
-                kirim_pesan(str(b))
+    # elif ".rm" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] whispers: .rm \[(.*?)\]', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         command = match.group(2)
+    #         if username in Admin_name:
+    #             b = remove_username(command)
+    #             kirim_pesan(str(b))
 
-    elif ".cek" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] whispers: .cek', text_cmd)
-        if match:
-            username = match.group(1)
-            if username in Admin_name:
-                h = read_usernames()
-                kirim_pesan("RPG Acoount: ")
-                for name in h:
-                    kirim_pesan("- "+str(name))
-    elif ".sit" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] .sit', text_cmd)
-        if match:
-            username = match.group(1)
-            if username in Admin_name:
-                pyautogui.typewrite('/sit')
-                pyautogui.press('enter')
-                kirim_pesan('saya duduk tuan')
-            else:
-                kirim_pesan("SIAPA LU NYURUH NYURUH??")
+    # elif ".cek" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] whispers: .cek', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         if username in Admin_name:
+    #             h = read_usernames()
+    #             kirim_pesan("RPG Acoount: ")
+    #             for name in h:
+    #                 kirim_pesan("- "+str(name))
+    # elif ".sit" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] .sit', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         if username in Admin_name:
+    #             pyautogui.typewrite('/sit')
+    #             pyautogui.press('enter')
+    #             kirim_pesan('saya duduk tuan')
+    #         else:
+    #             kirim_pesan("SIAPA LU NYURUH NYURUH??")
 
     # elif ">stand" in text_cmd.lower():
     #     match = re.search(r'\[(.*?)\] >stand', text_cmd)
@@ -794,52 +862,52 @@ while True:
     #         else:
     #             kirim_pesan("SIAPA LU NYURUH NYURUH??")
 
-    elif ">lambai" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] >lambai', text_cmd)
-        if match:
-            username = match.group(1)
-            if username in Admin_name:
-                pyautogui.typewrite('1')
-            else:
-                kirim_pesan("SIAPA LU NYURUH NYURUH??")
-    elif ">back" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] .back', text_cmd)
-        if match:
-            username = match.group(1)
-            if username in Admin_name:
-                pyautogui.typewrite('4')
-                kirim_pesan('')
-            else:
-                kirim_pesan("SIAPA LU NYURUH NYURUH??")
-    elif ">sleep" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] >sleep', text_cmd)
-        if match:
-            username = match.group(1)
-            if username in Admin_name:
-                pyautogui.typewrite('6')
-                kirim_pesan("Turu")
-            else:
-                kirim_pesan("SIAPA LU NYURUH NYURUH??")
-    elif ">laugh" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] >laugh', text_cmd)
-        if match:
-            username = match.group(1)
-            if username in Admin_name:
-                pyautogui.typewrite('/laugh')
-                pyautogui.press('enter')
-                kirim_pesan("wkwk")
-            else:
-                kirim_pesan("SIAPA LU NYURUH NYURUH??")
-    elif ">kiss" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] >kiss', text_cmd)
-        if match:
-            username = match.group(1)
-            if username in Admin_name:
-                pyautogui.typewrite('/kiss')
-                pyautogui.press('enter')
-                kirim_pesan("MUACHH")
-            else:
-                kirim_pesan("SIAPA LU NYURUH NYURUH??")
+    # elif ">lambai" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] >lambai', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         if username in Admin_name:
+    #             pyautogui.typewrite('1')
+    #         else:
+    #             kirim_pesan("SIAPA LU NYURUH NYURUH??")
+    # elif ">back" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] .back', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         if username in Admin_name:
+    #             pyautogui.typewrite('4')
+    #             kirim_pesan('')
+    #         else:
+    #             kirim_pesan("SIAPA LU NYURUH NYURUH??")
+    # elif ">sleep" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] >sleep', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         if username in Admin_name:
+    #             pyautogui.typewrite('6')
+    #             kirim_pesan("Turu")
+    #         else:
+    #             kirim_pesan("SIAPA LU NYURUH NYURUH??")
+    # elif ">laugh" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] >laugh', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         if username in Admin_name:
+    #             pyautogui.typewrite('/laugh')
+    #             pyautogui.press('enter')
+    #             kirim_pesan("wkwk")
+    #         else:
+    #             kirim_pesan("SIAPA LU NYURUH NYURUH??")
+    # elif ">kiss" in text_cmd.lower():
+    #     match = re.search(r'\[(.*?)\] >kiss', text_cmd)
+    #     if match:
+    #         username = match.group(1)
+    #         if username in Admin_name:
+    #             pyautogui.typewrite('/kiss')
+    #             pyautogui.press('enter')
+    #             kirim_pesan("MUACHH")
+    #         else:
+    #             kirim_pesan("SIAPA LU NYURUH NYURUH??")
 #//////// RPG ////////////////////////////////////////////////////////////////////////////////////////////
 
 
