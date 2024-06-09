@@ -1,6 +1,8 @@
 # PonyTown Bot
 
 A Simple ChatBot for Pony Town
+Warning : This is againts ponytown ToS and I am not responsible for anything that might happen 
+THIS SCRIPT IS NOT MALICIOUS BUT IS STILL AGAINTS TOS.
 
 ## How To Use
 
