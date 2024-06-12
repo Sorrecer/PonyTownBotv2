@@ -1,0 +1,11 @@
+name,mythical,legendary,uncommon,common,trash
+Gemini,0,0,6,3,2
+wolpi,0,3,4,13,7
+| Conqueror sekai |,0,0,0,2,2
+| Conqueror sekai | #2,0,0,9,8,5
+cantik,0,1,0,0,1
+hiryuu,0,1,0,0,0
+Pony,0,0,0,1,0
+Otak petrik star,0,0,0,0,1
+Fat pony/tomato(dnc) ,0,0,0,1,0
+(LEGACY) Woods,0,1,0,1,0

@@ -1,36 +1,306 @@
 from PIL import Image
 from datetime import datetime
 import time, random, re, pyautogui, pytesseract, os, requests, subprocess, rpg, sys, hashlib
+###======= Bot Configuration =======###
 
-apikey = "AIzaSyDb0-LMWXLjAiZZdKcMsXpkqqxWGXhAu6A"
-Admin_name = ['Bepsii']
-valid_username = rpg.read_usernames()
-
+BotName = "Rick's Bot"
+Admin_name = ['I AM RICK']
+prefix = ['+', '>', '-']
+apikey="AIzaSyDb0-LMWXLjAiZZdKcMsXpkqqxWGXhAu6A"
 pytesseract.pytesseract.tesseract_cmd = r'D:\Tesseract\tesseract.exe'
-cooldowns = {}
+###======= Bot Configuration =======###
 
-# def read_usernames():
-#     with open('name.txt', 'r') as file:
-#         usernames = [line.strip() for line in file]
-#     return usernames
 
-# def add_username(username):
-#     with open('name.txt', 'r') as file:
-#         usernames = [line.strip() for line in file]
-#     if username.strip() not in usernames:
-#         with open('name.txt', 'a') as file:
-#             file.write(username.strip() + '\n')
-#         return(f"Username '{username}' has been added successfully.")
-#     else:
-#         return(f"Username '{username}' already exists.")
+
+###======= Setup =======###
+# try:
+#     import pytesseract
+# except ModuleNotFoundError:
+#     os. system("pip install pytesseract")
+
+# try:
+#     import PIL
+# except ModuleNotFoundError:
+#     os. system("pip install pillow")
+
+# try:
+#     import pyautogui
+# except ModuleNotFoundError:
+#     os. system("pip install pyautogui")
+###======= Setup =======###
+
+def steal(name1, name2):
+    items = [
+        "Kaos Kaki Kiri",
+        "Password Wi-Fi",
+        "Lampu Kulkas",
+        "Camilan",
+        "Harga Diri",
+        "Remote TV",
+        "Seprai",
+        "Potongan Pizza Terakhir",
+        "Bantal",
+        "Pulpen",
+        "Charger",
+        "Kunci Rumah",
+        "Gulungan Tisu Toilet",
+        "Sisa Shampoo Terakhir",
+        "Kesabaran",
+        "Buku Harian Pribadi",
+        "Mobil",
+        "Motor",
+        "Kacamata Hitam",
+        "Sikat Gigi",
+        "Resep Rahasia",
+        "Jam Alarm",
+        "Hoodie Favorit",
+        "Ingatan",
+        "Selera Humor",
+        "Kata Sandi",
+        "Buku Favorit",
+        "Tanaman",
+        "Makanan",
+        "Kaos Kaki",
+        "Sepatu",
+        "Pakaian",
+        "Beha",
+        "Kolor",
+        "Bulu Misterius",
+        "Mainan aneh",
+        "Playlist Favorit",
+        "Router Wi-Fi",
+        "Identitas",
+        "Surat Cinta",
+        "Waktu Tidur Siang",
+        "Nasi Padang",
+        "Sempak",
+        "Duit 10rb",
+        "Duit 100rb",
+        "Duit 1M",
+        "Duit 271T",
+        "KTP",
+        "SIM C",
+        "Handuk",
+        "Hati",
+        "Kantong kresek",
+        "Ginjal",
+        "Perhatian",
+        "Pacar",
+        "BOM",
+        "Beras",
+        "Pepsi",
+        "Tolak angin",
+        "minyak kayu putih",
+        "Pahala",
+        "Duit 2rb",
+        "Kuda",
+        "Kucing",
+        "Tanda Tangan",
+        "Kenangan Masa Lalu",
+    ]
+    item = random.choice(items)
+    kirim_pesan(f"{name1} telah mencuri {item} dari {name2}!")
+
+def add_fish(name):
+        with open("fish_database.txt", "r+") as file:
+            lines = file.readlines()
+            
+            # Menghapus header dan mengiterasi baris data
+            for line in lines[1:]:
+                data = line.strip().split(',')
+                
+                if data[0].lower() == name.lower():
+                    print(f"{name.capitalize()} sudah ada dalam database.")
+                    return  # Keluar dari fungsi jika nama sudah ada
+
+            # Tambahkan data baru jika nama tidak ditemukan
+            new_data = f"{name},0,0,0,0,0\n"
+            file.write(new_data)
+            print(f"{name.capitalize()} telah ditambahkan ke database.")
+
+def add_duit(name):
+        with open("duit_database.txt", "r+") as file:
+            lines = file.readlines()
+            
+            # Menghapus header dan mengiterasi baris data
+            for line in lines[1:]:
+                data = line.strip().split(',')
+                
+                if data[0].lower() == name.lower():
+                    print(f"{name.capitalize()} sudah ada dalam database.")
+                    return  # Keluar dari fungsi jika nama sudah ada
+
+            # Tambahkan data baru jika nama tidak ditemukan
+            new_data = f"{name},0\n"
+            file.write(new_data)
+            print(f"{name.capitalize()} telah ditambahkan ke database.")
+
+def checkOrkay():
+    with open("duit_database.txt", "r") as file:
+        lines = file.readlines()
         
-# def remove_username(username):
-#     temp_file = 'name.txt'
-#     with open('name.txt', 'r') as file, open(temp_file, 'w') as temp:
-#         for line in file:
-#             if line.strip() != username:
-#                 temp.write(line)
-#     return(f"Username '{username}' has been removed.")
+    # Inisialisasi variabel untuk menyimpan informasi orang dengan uang terbanyak
+    richest_person = None
+    max_money = -float('inf')  # Awalnya diatur ke negatif tak hingga
+    
+    # Lewati header dan iterasi baris data
+    for line in lines[1:]:
+        data = line.strip().split(',')
+        money = int(data[1])  # Konversi jumlah uang ke integer
+        
+        if money > max_money:
+            max_money = money
+            richest_person = data[0]
+    
+    if richest_person:
+        kirim_pesan(f"Orang terkaya adalah {richest_person.capitalize()} dengan duit: {max_money}")
+        return richest_person, max_money
+
+def add_catch(name, category_index, increment=1):
+    # Baca file dan cari nama
+    with open("fish_database.txt", "r") as file:
+        lines = file.readlines()
+    
+    # Tulis data baru ke file sementara
+    with open("fish_database.txt", "w") as file:
+        for line in lines:
+            data = line.strip().split(',')
+            
+            # Jika nama cocok, tambahkan nilai pada kategori yang sesuai
+            if data[0].lower() == name.lower():
+                # Tambahkan nilai
+                data[category_index] = str(int(data[category_index]) + increment)
+
+            # Tulis kembali data (baik diperbarui atau tidak)
+            file.write(','.join(data) + '\n')
+        print(f"Data {name.capitalize()} telah diperbarui.")
+
+def add_gacor(name, amount):
+        # Baca file dan simpan semua baris
+        with open("duit_database.txt", "r") as file:
+            lines = file.readlines()
+        
+        # Tulis data baru ke file sementara
+        with open("duit_database.txt", "w") as file:
+            for line in lines:
+                data = line.strip().split(',')
+                
+                if data[0].lower() == name.lower():
+                    if amount == 0:
+                        data[1] = '0'
+                    else:
+                        data[1] = str(int(data[1]) + amount)
+
+                # Tulis kembali data (baik diperbarui atau tidak)
+                file.write(','.join(data) + '\n')
+            print(f"Duit {name.capitalize()} telah diperbarui.")
+
+def calculate_form_percentage(name1):
+    wujud = [
+    "Manusia",
+    "Serigala",
+    "Drakula",
+    "Siklop",
+    "Presiden Amerika Serikat",
+    "Bos Mafia",
+    "Hantu",
+    "Smurf",
+    "Badut",
+    "Vampir",
+    "Ayam",
+    "Alien",
+    "Skeleton",
+    "Unicorn",
+    "Putri Duyung",
+    "Kraken",
+    "Goblin",
+    "Politisi",
+    "Yeti",
+    "Hamster Raksasa",
+    "Kura-Kura Ninja",
+    "Bajak Laut",
+    "Leprechaun",
+    "Naga",
+    "Gnome",
+    "Penjaga Pantai",
+    "Mumi",
+    "Centaur",
+    "Elf",
+    "Mekanik",
+    "Troll",
+    "Cyborg",
+    "Manusia Serigala",
+    "Peri",
+    "Jin",
+    "Medusa",
+    "Akuntan Pajak",
+    "Robot",
+    "Penyihir",
+    "Phoenix",
+    "Griffin",
+    "Pegasus",
+    "Semut Raksasa",
+    "Bigfoot",
+    "Sphinx",
+    "Kurcaci",
+    "Raksasa",
+    "Dinosaurus",
+    "Pohon yang Berbicara",
+    "Marshmallow Hidup",
+    "Kucing",
+    "Koboi",
+    "Kraken",
+    "Mbah - mbah",
+    "Vampir",
+    "Ikan yang Berbicara",
+    "Manusia Salju Hidup",
+    "Penyihir Tak Terlihat",
+    "Putri Duyung",
+    "Vegan",
+    "Anjing yang Berbicara",
+    "Labu yang Berbicara"
+    ]
+
+    # Hashing kombinasi nama menggunakan SHA256
+
+    hash_object = hashlib.sha256((name1.lower()).encode())
+    hex_dig = hash_object.hexdigest()
+    
+    # Mengambil 2 karakter pertama dari hash dan mengubahnya menjadi integer
+    hash_int = int(hex_dig[:2], 16)
+    
+    # Menghitung persentase kecocokan dari 0 hingga 100
+    percentage = hash_int % 61
+    kirim_pesan(f'Wujud asli dari {name1} adalah : {wujud[percentage]}')
+
+
+def calculate_furry_percentage(name1):
+    # Hashing kombinasi nama menggunakan SHA256
+
+    hash_object = hashlib.sha256((name1.lower()).encode())
+    hex_dig = hash_object.hexdigest()
+    
+    # Mengambil 2 karakter pertama dari hash dan mengubahnya menjadi integer
+    hash_int = int(hex_dig[:2], 16)
+    
+    # Menghitung persentase kecocokan dari 0 hingga 100
+    percentage = hash_int % 101
+    
+    return percentage
+
+def calculate_gey_percentage(name1):
+    # Hashing kombinasi nama menggunakan SHA256
+
+    hash_object = hashlib.sha256((name1.lower()).encode())
+    hex_dig = hash_object.hexdigest()
+    
+    # Mengambil 2 karakter pertama dari hash dan mengubahnya menjadi integer
+    hash_int = int(hex_dig[:2], 16)
+    
+    # Menghitung persentase kecocokan dari 0 hingga 100
+    percentage = hash_int % 101
+    
+    return percentage
 
 def calculate_love_percentage(name1, name2):
     # Gabungkan kedua nama dengan urutan yang konsisten
@@ -48,309 +318,43 @@ def calculate_love_percentage(name1, name2):
     
     return percentage
 
-def suit(name1, name2, suit1, suit2):
-    #condition 1
-    if suit1 == suit2 :
-        kirim_pesan(f'seri! kedua pemain telah memilih {suit1}')
-    elif (suit1 == 'gunting' and suit2 == 'kertas') or \
-        (suit1 == 'batu' and suit2 == 'gunting') or \
-        (suit1 == 'kertas' and suit2 == 'batu'):
-        kirim_pesan(f'{suit1} vs {suit2}. {name2} kalah! {name1} menang!')
-    else:
-        kirim_pesan(f'{suit1} vs {suit2}. {name1} kalah! {name2} menang!')
 
+def press_arrow_key(direction):
+    pyautogui.keyDown(direction)
+    time.sleep(0.1)
+    pyautogui.keyUp(direction)
 
-def calculate_furry_percentage(name1):
-    # Hashing kombinasi nama menggunakan SHA256
-    hash_object = hashlib.sha256(name1.encode())
-    hex_dig = hash_object.hexdigest()
-    
-    # Mengambil 2 karakter pertama dari hash dan mengubahnya menjadi integer
-    hash_int = int(hex_dig[:2], 16)
-    
-    # Menghitung persentase kecocokan dari 0 hingga 100
-    percentage = hash_int % 101
-    
-    return percentage
-
-def hit_card():
-    return random.randint(1, 10)
-
-def steal(name1, name2):
-    items = [
-        "Kaos Kaki Kiri",
-        "Kata Sandi Wi-Fi",
-        "Lampu Kulkas",
-        "Baterai Remote TV",
-        "Camilan",
-        "Harga Diri",
-        "Bantal Sofa",
-        "Remote TV",
-        "Seprai",
-        "Potongan Pizza Terakhir",
-        "Bantal Memory Foam",
-        "Pulpen Keberuntungan",
-        "Pengisi Daya Ponsel",
-        "Kunci Rumah",
-        "Gulungan Tisu Toilet",
-        "Sisa Shampoo Terakhir",
-        "Selimut Favorit",
-        "Kesabaran",
-        "Payung",
-        "Buku Harian Pribadi",
-        "Pengaturan Termostat",
-        "Kacamata Hitam",
-        "Sikat Gigi",
-        "Resep Rahasia",
-        "Jam Alarm",
-        "Penanda Buku",
-        "Hoodie Favorit",
-        "Ingatan",
-        "Selera Humor",
-        "Kata Sandi",
-        "Buku Favorit",
-        "Lilin Beraroma",
-        "Kursi",
-        "Mug",
-        "Tanaman",
-        "Makanan",
-        "Kaos Kaki",
-        "Deterjen Laundry",
-        "Sepatu Olahraga",
-        "Mainan aneh",
-        "Playlist Favorit",
-        "Router Wi-Fi",
-        "Identitas",
-        "Botol Air Minum",
-        "Surat Cinta",
-        "Waktu Tidur Siang",
-        "Nasi Padang",
-        "Sempak",
-        "Duit 10rb",
-        "Duit 1M",
-        "Duit 271T",
-        "KTP"
-    ]
-    item = random.choice(items)
-    kirim_pesan(f"{name1} telah mencuri {item} dari {name2}!")
-
-
-def is_on_cooldown(username):
-    if username in Admin_name:
-        return False
-    if username in cooldowns:
-        current_time = time.time()
-        cooldown_time = cooldowns[username]
-        if current_time - cooldown_time < 3600: 
-            return True
+def handle_command(text_cmd, command, direction, kmna):
+    match = re.search(r'\[(.*?)\](?: whispers:)? >*?' + command + r'\s+(\d+)', text_cmd)
+    if match:
+        username = match.group(1)
+        if username in Admin_name:
+            value = int(match.group(2))
+            
+            kirim_pesan(f"{value} langkah ke {kmna}")
+            for _ in range(value):
+                press_arrow_key(direction)
+            kirim_pesan("")
         else:
-            del cooldowns[username] 
-    return False
+            kirim_pesan("SIAPA LU NYURUH NYURUH??")
 
-def process_uang_kaget_command(username):
-    if not is_on_cooldown(username):
-        kirim_pesan(f"Selamat {username}, anda mendapat uang sebesar:")
-        kirim_pesan("/roll 100000000")
-        cooldowns[username] = time.time()
-    else:
-        kirim_pesan(f"{username}, Anda masih dalam cooldown. Silakan coba lagi nanti.")
+def split_text(text, max_length=70):
+    words = text.split()
+    lines = []
+    current_line = ''
 
-def process_thr_command(username, target):
-    if not is_on_cooldown(username):
-        kirim_pesan(f"Selamat {target}, anda mendapat uang dari {username}, sebesar:")
-        kirim_pesan("/roll 100000000")
-        cooldowns[username] = time.time()
-    else:
-        kirim_pesan(f"{username}, Anda masih dalam cooldown. Silakan coba lagi nanti.")
-        
-def process_quotes_command():
-    quotes = [
-        "walaupun mukaku kayak tytyd tapi cintaku padamu unlimited",
-        "aduhhhhh kebelet eek BROTTTTTT",
-        "jangan lupa bahagia, kalo lupa sini aku bahagiain",
-        # "Jangan menyerah, karena saat menyerah, itu adalah awal dari kegagalan.",
-        # "Hidup adalah apa yang terjadi saat kamu sibuk membuat rencana lain.",
-        # "Satu-satunya cara untuk melakukan pekerjaan besar adalah mencintai apa yang kamu lakukan.",
-        # "Di akhir, bukanlah tahun dalam hidupmu yang penting. Tetapi hidup dalam tahun-tahunmu.",
-        # "Hanya ada satu hal yang harus kita takuti, yaitu ketakutan itu sendiri.",
-        # "Anda akan melewatkan 100 persen dari tembakan yang tidak anda ambil.",
-        # "Jadilah dirimu sendiri; orang lain sudah terlalu tersita.",
-        # "Masa depan milik mereka yang percaya pada keindahan mimpinya.",
-        # "Berjuang bukanlah untuk sukses, tetapi lebih baik untuk memberi nilai.",
-        # "Saya tidak gagal. Saya hanya menemukan 10.000 cara yang tidak akan berhasil."
-    ]
-    kirim_pesan(random.choice(quotes))
+    for word in words:
+        if len(current_line) + len(word) <= max_length:
+            current_line += word + ' '
+        else:
+            lines.append(current_line.rstrip())
+            current_line = word + ' '
 
-def process_coin_command():
-    coin = ["head","tail"]
-    kirim_pesan("Melempar koin..")
-    time.sleep(2)
-    kirim_pesan("Sisi atas koin = ")
-    kirim_pesan(random.choice(coin))
+    if current_line:
+        lines.append(current_line.rstrip())
 
-def process_spin_command():
-    botol = ["kiri","atas","kanan","bawah"]
-    kirim_pesan("Memutar botol...")
-    time.sleep(2)
-    kirim_pesan("Botol berhenti")
-    kirim_pesan("Arah botol : ")
-    kirim_pesan(random.choice(botol))
+    return lines
 
-def klik():
-    time.sleep(1)
-    pyautogui.click(40, pyautogui.size()[1] - 70)
-    pyautogui.click(230, pyautogui.size()[1] - 70)
-
-def kirim_pesan(message):
-    pyautogui.typewrite('/')
-    pyautogui.press('backspace')
-    pyautogui.typewrite(message)
-    pyautogui.press('enter')
-    pyautogui.typewrite('/clearchat')
-    pyautogui.press('enter')
-
-def read_usernames():
-    with open('name.txt', 'r') as file:
-        usernames = [line.strip() for line in file]
-    return usernames
-
-def menu(username):
-    usernames = read_usernames()
-    current_time = time.localtime()
-    current_hour = str(current_time.tm_hour) 
-    current_minute = str(current_time.tm_min)
-
-    def adminmenu():
-        kirim_pesan("> thr")
-        kirim_pesan("> give")
-        kirim_pesan('> nama_keren')
-        kirim_pesan('> skin_cl')
-        kirim_pesan("> day")
-        kirim_pesan("> (pertambahan)")
-        kirim_pesan("> quotes")
-        kirim_pesan("> puja")
-        kirim_pesan("> owner")
-        kirim_pesan("> ai")
-        kirim_pesan("> py!!")
-        kirim_pesan("< hunt")
-        kirim_pesan("< stats")
-        kirim_pesan("< buy")
-        kirim_pesan("< gacha")
-
-    def menu():
-        pesan_salam = f"Hai [{username}] Jam: {current_hour}:{current_minute}"
-        kirim_pesan(pesan_salam)
-        kirim_pesan("Saya adalah Bepis Bot, Bot pony town modifikasi Bepsii")
-        kirim_pesan("Menu yang tersedia :")
-        kirim_pesan(">games >fun >lainnya >owner")
-
-    if username in usernames: 
-        pesan_salam = f"Hallo Tuan [{username}], Sekarang Jam: {current_hour}:{current_minute}"
-        kirim_pesan(pesan_salam)
-        kirim_pesan(f"Apa yang tuan {username} inginkan?")
-        time.sleep(4)
-        kirim_pesan("Menu yang saya bisa:")
-        time.sleep(2)
-        adminmenu()
-
-    # elif username == "Selvi":
-    #     pesan_salam = f"Hallo Nyonya agung [{username}], Sekarang Jam: {current_hour}:{current_minute}"
-    #     kirim_pesan(pesan_salam)
-    #     kirim_pesan(f"Apa yang nyonya {username} inginkan?")
-    #     time.sleep(4)
-    #     kirim_pesan("Menu yang tersedia:")
-    #     time.sleep(2)
-    #     adminmenu()
-    else:
-        menu()
-        
-
-# def generate_cool_name(name):
-#     adjectives = ['Mighty', 'Sleek', 'Shadow', 'Blaze', 'Thunder', 'Eternal', 'Epic', 'Ninja', 'Alpha', 'Omega']
-#     nouns = ['Phoenix', 'Dragon', 'Wolf', 'Storm', 'Tiger', 'Sword', 'Warrior', 'Legend', 'Hero', 'Knight']
-    
-#     name_parts = name.split()
-    
-#     num_adjectives = random.randint(1, min(len(name_parts), 2))
-#     selected_adjectives = random.sample(adjectives, num_adjectives)
-    
-#     cool_name = ' '.join(selected_adjectives + name_parts)
-    
-#     return cool_name
-
-# def warna_skin():
-#     skin_colors = {
-#         "Fair": "#F8E5DA",
-#         "Light": "#F2D5BB",
-#         "Medium": "#E5B887",
-#         "Olive": "#B28D6A",
-#         "Tan": "#8A694B",
-#         "Deep": "#634834",
-#         "Ebony": "#3C281D",
-#         "Pale": "#FFE4C4",
-#         "Caramel": "#FFA07A",
-#         "Chestnut": "#CD5C5C",
-#         "Mahogany": "#8B4513",
-#         "Sable": "#705040",
-#         "Mocha": "#462E1B",
-#         "Honey": "#DAA520",
-#         "Amber": "#FFBF00",
-#         "Bronze": "#CD7F32",
-#         "Cocoa": "#D2691E",
-#         "Sienna": "#A0522D",
-#         "Copper": "#B87333",
-#         "Sepia": "#704214"
-#     }
-#     return skin_colors
-
-def nama_keren(username):
-    cool_name = generate_cool_name(username)
-    kirim_pesan(f"Nama keren Anda: {cool_name}")
-
-def get_indonesian_day(day_num):
-    days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
-    return days[day_num]
-
-def process_puji_command(username):
-    pujian = [
-        f"Terima kasih atas kontribusi Anda, {username}!",
-        f"{username}, Anda luar biasa!",
-        f"{username}, Anda membuat komunitas menjadi lebih baik.",
-        f"{username}, Anda inspiratif!",
-        f"{username}, Anda berharga!",
-        f"{username}, Anda adalah motivasi bagi kita semua.",
-        f"{username}, Kami menghargai Anda!",
-        f"{username}, Anda membuat perbedaan!",
-        f"{username}, Terus berikan yang terbaik!",
-        f"{username}, Anda adalah sumber inspirasi!",
-        f"{username}, Jangan pernah menyerah!",
-        f"{username}, Anda adalah teladan yang baik!",
-        f"{username}, Hidup Anda berharga!",
-        f"{username}, Anda hebat!",
-        f"{username}, Dunia ini lebih baik dengan Anda!",
-        f"{username}, Anda pantas mendapat pujian!",
-        f"{username}, Selamat! Anda luar biasa!",
-        f"{username}, Anda menakjubkan!",
-        f"{username}, Anda memberikan energi positif!",
-        f"{username}, Anda layak mendapat penghargaan!",
-        f"{username}, Anda mencerahkan hari saya!",
-        f"{username}, Anda membuat perbedaan yang nyata!",
-        f"{username}, Anda adalah inspirasi bagi banyak orang!",
-        f"{username}, Anda sangat berarti bagi kami!",
-        f"{username}, Anda adalah pahlawan sejati!",
-        f"{username}, Keren sekali!",
-        f"{username}, Anda luar biasa hari ini!",
-        f"{username}, Terima kasih telah menjadi bagian dari tim kami!",
-        f"{username}, Karya Anda sangat dihargai!",
-        f"{username}, Anda adalah contoh yang baik untuk diikuti!",
-        f"{username}, Anda adalah aset berharga!",
-        f"{username}, Selamat atas pencapaian Anda!",
-        f"{username}, Anda membuat kami bangga!",
-        f"{username}, Anda adalah sumber inspirasi yang tak terelakkan!"
-    ]
-    
-    kirim_pesan(random.choice(pujian))
-    
 def gemini(meseg):
     headers = {
         'Content-Type': 'application/json',
@@ -380,119 +384,154 @@ def gemini(meseg):
         else:
             print("No candidates found.")
 
-while True:
-##########//////////// [ENGINE] //////////////////####################################################
-    print("tes1")
-    screen = pyautogui.screenshot()
-    screen = screen.crop((110, 500, 1100, 800))
-    text_cmd = pytesseract.image_to_string(screen)
-    print(text_cmd)
-    ### (Opsional)
+# Definisikan fungsi check
+def checkfish(name):
+    # Membaca file fish_database.txt
+    with open("fish_database.txt", "r") as file:
+        lines = file.readlines()
+        
+        # Menghapus header dan mengiterasi baris data
+        for line in lines[1:]:
+            data = line.strip().split(',')
+            
+            if data[0].lower() == name.lower():
+                # Mencetak hasil dalam format yang diinginkan
+                kirim_pesan(f"{name.capitalize()} mythical: {data[1]}, legendary: {data[2]}, uncommon: {data[3]}")
+                return  # Keluar dari fungsi setelah menemukan data yang sesuai
+        
+        # Jika tidak ditemukan
+        kirim_pesan(f"{name.capitalize()} tidak ditemukan dalam database.")
 
-#########//////////////// [BASIC COMMAND] /////////////////########################################################
-
-    if ">menu" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] >menu', text_cmd)
+def checkduit(name):
+    # Membaca file fish_database.txt
+    with open("duit_database.txt", "r") as file:
+        lines = file.readlines()
+        
+        # Menghapus header dan mengiterasi baris data
+        for line in lines[1:]:
+            data = line.strip().split(',')
+            
+            if data[0].lower() == name.lower():
+                # Mencetak hasil dalam format yang diinginkan
+                kirim_pesan(f"Duit {name.capitalize()} berjumlah ${data[1]}")
+                return  # Keluar dari fungsi setelah menemukan data yang sesuai
+        
+        # Jika tidak ditemukan
+        kirim_pesan(f"{name.capitalize()} tidak ditemukan dalam database.")
+            
+def command(cmd, run):
+    pattern = r'\[(.*?)\](?: whispers:)? ([' + ''.join(re.escape(p) for p in prefix) + '])' + re.escape(cmd) + r'(?: (.+))?'
+    if re.search(pattern, text_cmd.lower()):
+        match = re.search(pattern, text_cmd)
         if match:
-            username = match.group(1)
-            print(username)
-            if "[say]" in text_cmd.lower():
-                menu(username)
+            run(match)
+    elif ">up" in text_cmd.lower():
+        handle_command(text_cmd, ".up", 'up', "atas")
+    elif ">down" in text_cmd.lower():
+        handle_command(text_cmd, ".dn", 'down', "bawah")
+    elif ">right" in text_cmd.lower():
+        handle_command(text_cmd, ".kn", 'right', "kanan")
+    elif ">left" in text_cmd.lower():
+        handle_command(text_cmd, ".kr", 'left', "kiri")
+    elif '.sm' in text_cmd:
+        match = re.search(r'\[(.*?)\](?: whispers:)? .sm \"(.*?)\" (.+)', text_cmd)
+        if match:
+            nama = match.group(1)
+            username = match.group(2)
+            messeg = match.group(3)
+            if username == nama:
+                kirim_whisp(message="Tidak bisa send secret message ke diri sendiri", username=nama)
             else:
-                menu(username)
+                kirim_whisp(message=f"Halo {username}, anda mendapatkan pesan rahasia", username=username)
+                time.sleep(2)
+                kirim_whisp(message=messeg, username=username)
+                kirim_whisp(message="Secret Message Terkirim", username=nama)
+                
+def kirim_pesan(message):
+    pyautogui.typewrite('/')
+    pyautogui.press('backspace')
+    pyautogui.typewrite("/say "+message)
+    pyautogui.press('enter')
+    pyautogui.typewrite('/clearchat')
+    pyautogui.press('enter')
 
-    # elif ".thr" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] .thr ', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         # if username not in Admin_name and not is_on_cooldown(username):
-    #         #     process_uang_kaget_command(username)
-    #         # elif username not in Admin_name:
-    #         #     kirim_pesan(f"{username}, Anda masih dalam cooldown. Silakan coba lagi nanti.")
-    #         # elif username in Admin_name:
-    #         kirim_pesan(f"Selamat tuan {username}, anda mendapat uang sebesar:")
-    #         kirim_pesan("/roll 9999999999")
+def kirim_whisp(message, username):
+    pyautogui.typewrite('/')
+    pyautogui.press('backspace')
+    pyautogui.typewrite(f"/whisper {username} "+message)
+    pyautogui.press('enter')
+    pyautogui.typewrite('/clearchat')
+    pyautogui.press('enter')
 
-    # elif ".give" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] .give \[(.*?)\]', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         target = match.group(2)
-    #         if username not in Admin_name and not is_on_cooldown(username):
-    #             process_thr_command(username=username, target=target)
-    #         elif username not in Admin_name:
-    #             kirim_pesan(f"{username}, Anda masih dalam cooldown. Silakan coba lagi nanti.")
+def hit_card():
+    return random.randint(1, 10)
 
-    elif ">nama_keren" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] >nama_keren', text_cmd)
-        if match:
-            username = match.group(1)
-            nama_keren(username)
+class Cmd:
+    def menu(self, match):
+        username = match.group(1)
+        current_time = time.localtime()
+        current_hour = str(current_time.tm_hour) 
+        current_minute = str(current_time.tm_min)
+        def adminmenu():
+            kirim_pesan("> ai <text>")
+            kirim_pesan("> back")
+            kirim_pesan("> day")
+            kirim_pesan("> dice <angka>")
+            kirim_pesan("> kiss")
+            kirim_pesan("> lambai")
+            kirim_pesan("> laugh")
+            kirim_pesan("> lie")
+            kirim_pesan("> menu")
+            kirim_pesan("> nama_keren")
+            kirim_pesan("> owner")
+            kirim_pesan("> puja")
+            kirim_pesan("> py <python code>")
+            kirim_pesan("> quotes")
+            kirim_pesan("> sit")
+            kirim_pesan("> sleep")
+            kirim_pesan("> stand")
+            kirim_pesan("> sm(Secret Message) <username> <pesan>")
+            kirim_pesan("> up (jumlah langkah) <atas>")
+            kirim_pesan("> dn (jumlah langkah) <bawah>")
+            kirim_pesan("> kr (jumlah langkah) <kiri>")
+            kirim_pesan("> kn (jumlah langkah) <kanan>")
 
-    elif ">games" in text_cmd.lower():
-        kirim_pesan(">cointoss >slot >blackjack >roullete")
+        def menu():
+            pesan_salam = f"Hi [{username}!]"
+            kirim_pesan(pesan_salam)
+            kirim_pesan("command : >games >fun >others")
 
-    elif ">fun" in text_cmd.lower():
-        kirim_pesan(">quotes >puja >furry [nama] >jodoh [nama1] [nama2]")
+        if username in Admin_name: 
+            pesan_salam = f"Hallo Tuan [{username}], Sekarang Jam: {current_hour}:{current_minute}"
+            kirim_pesan(pesan_salam)
+            kirim_pesan(f"Apa yang tuan {username} inginkan?")
+            time.sleep(4)
+            kirim_pesan("Menu yang saya bisa:")
+            time.sleep(2)
+            adminmenu()
+        
+        else:
+            menu()
 
-    elif ">lainnya" in text_cmd.lower():
-        kirim_pesan(">ceramah, >ai [prompt anda], >py!!kode anda!!")
+    def games(self, match):
+        kirim_pesan(">fish, >cointoss, >slots, >blackjack, >roulette")
 
-    elif re.search(r'\(\d+\+\d+\)', text_cmd):
-        matches = re.findall(r'\((\d+)\+(\d+)\)', text_cmd)
-        for match in matches:
-            angka1 = int(match[0])
-            angka2 = int(match[1])
-            total = angka1 + angka2
-            print("Pola ditemukan dalam teks.")
-            print("Angka pertama:", angka1)
-            print("Angka kedua:", angka2)
-            kirim_pesan(f"Total pertambahan dari {str(angka1)} + {str(angka2)} = {str(total)}")
+    def fun(self, match):
+        kirim_pesan(">steal [name], >furry [name], >love [name1] [name2], >form[name]")
 
-    elif re.search(r'\(\d+\-\d+\)', text_cmd):
-        matches = re.findall(r'\((\d+)\-(\d+)\)', text_cmd)
-        for match in matches:
-            angka1 = int(match[0])
-            angka2 = int(match[1])
-            total = angka1 - angka2
-            print("Pola ditemukan dalam teks.")
-            print("Angka pertama:", angka1)
-            print("Angka kedua:", angka2)
-            kirim_pesan(f"Total pengurangan dari {str(angka1)} - {str(angka2)} = {str(total)}")
+    def others(self, match):
+        kirim_pesan(">ask, >news, >talk, >about")
+        
+    def cointoss(self, match):
+        coin = ["head","tail"]
+        kirim_pesan("Melempar koin..")
+        time.sleep(2)
+        kirim_pesan("Sisi atas koin = ")
+        kirim_pesan(random.choice(coin))
 
-    elif re.search(r'\(\d+\*\d+\)', text_cmd):
-        matches = re.findall(r'\((\d+)\*(\d+)\)', text_cmd)
-        for match in matches:
-            angka1 = int(match[0])
-            angka2 = int(match[1])
-            total = angka1 * angka2
-            print("Pola perkalian ditemukan dalam teks.")
-            print("Angka pertama:", angka1)
-            print("Angka kedua:", angka2)
-            kirim_pesan(f"Total perkalian dari {str(angka1)} * {str(angka2)} = {str(total)}")
-
-    elif re.search(r'\(\d+/\d+\)', text_cmd):
-        matches = re.findall(r'\((\d+)/(\d+)\)', text_cmd)
-        for match in matches:
-            angka1 = int(match[0])
-            angka2 = int(match[1])
-            total = angka1 / angka2
-            print("Pola pembagian ditemukan dalam teks.")
-            print("Angka pertama:", angka1)
-            print("Angka kedua:", angka2)
-            kirim_pesan(f"Total pembagian dari {str(angka1)} / {str(angka2)} = {str(total)}")
-
-    elif ">skin_cl" in text_cmd.lower():
-        skin_colors = warna_skin()
-        warna = random.choice(list(skin_colors.keys()))
-        kirim_pesan("Berikut adalah kode warna kulit:")
-        kirim_pesan(f"{warna}: {skin_colors[warna]}")
-
-    elif ">owner" in text_cmd.lower():
-        kirim_pesan("owner: Rand Sfk")
-        kirim_pesan("mod by : Bepsii")
-
-    elif ">slot" in text_cmd.lower():
+    def slots(self, match):
+        username = match.group(1)
+        add_duit(username)
         slot = [":banana:", ":heart:", ":skull:"]
         slot1 = random.choice(slot)
         slot2 = random.choice(slot)
@@ -500,102 +539,49 @@ while True:
         kirim_pesan(f"[{slot1}] [{slot2}] [{slot3}]")
         time.sleep(1)
         if slot1 == slot2 == slot3:
-            kirim_pesan("GACOR KANGGGG")
+            kirim_pesan(":sparkles: GACOR KANGGGG! duit +1000 :sparkles:")
+            add_gacor(username, 1000)
         elif slot1 == slot2 or slot2 == slot3 or slot1 == slot3:
-            kirim_pesan("lumayan gacor")
+            kirim_pesan("lumayan gacor. duit +100")
+            add_gacor(username, 100)
         else :
-            kirim_pesan("anda bangkrut")
+            kirim_pesan("anda bangkrut :sob:")
+            add_gacor(username, 0)
 
-    elif ">day" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] .day', text_cmd)
-        if match:
-            username = match.group(1)
-            now = datetime.now()
-            day_index = now.weekday()
-            day_name = get_indonesian_day(day_index)
-            kirim_pesan("Sekarang adalah hari "+day_name+" "+username)
-
-    elif ">quotes" in text_cmd.lower():
-        process_quotes_command()
-
-    elif ">cointoss" in text_cmd.lower():
-        process_coin_command()
-    
-    elif ">spin" in text_cmd.lower():
-        process_spin_command()
-
-    elif ">puja" in text_cmd.lower():
-        match = re.search(r'\[(.*?)\] >puja', text_cmd)
-        if match:
-            username = match.group(1)
-            process_puji_command(username)
-
-    elif ">ai" in text_cmd.lower():
-        match = re.search(r'>ai \[(.*?)\]', text_cmd)
-        if match:
-            question = match.group(1)
-            ceks = gemini(question)
-            kirim_pesan(ceks)
-
-    elif '>py!!' in text_cmd:
-        match = re.search(r'\>py!!(.*?)!!', text_cmd)
-        if match:
-            code = match.group(1).replace("\\n", "\n")
-            try:
-                print(code)
-                with open("temp.py", "w") as f:
-                    f.write(code)
-                result = subprocess.run(["python", "temp.py"], capture_output=True, text=True)
-                kirim_pesan(f"Eksekusi Python: {result.stdout}")
-            except Exception as e:
-                print("Error executing Python code:", e)
-            finally:
-                os.remove("temp.py")
-
-    elif ">ceramah" in text_cmd.lower():
-        kirim_pesan("PRESIDEN GUOOBLOKK")
-        time.sleep(2)
-        kirim_pesan("udah gitu menteri agamanya SESATT")
-        kirim_pesan("KURANGAJAR")
-        time.sleep(2)
-        kirim_pesan("qorinya DAJJAL")
-        time.sleep(2)
-        kirim_pesan("istananya menjadi ISTANA IBLIS")
-
-    elif ">blackjack" in text_cmd.lower():
-
+    def blackjack(self, match):
+        username = match.group(1)
         loss = False
         
         # Mulai dengan kartu pertama untuk pemain
         player_total = hit_card()
         dealer_total = hit_card()
-        kirim_pesan(f"Kartu anda: {player_total}")
+        kirim_pesan(f"Your card: {player_total}")
         time.sleep(1)
-        kirim_pesan("tambah (hit) atau tetap (stand)?")
+        kirim_pesan(">hit or >stand ?")
         
         # Giliran pemain
         while loss == False :
             screen = pyautogui.screenshot()
             screen = screen.crop((110, 500, 1100, 800))
             text_cmd = pytesseract.image_to_string(screen)
-            if ">hit" in text_cmd.lower():
+            if "hit" in text_cmd.lower():
                 new_card = hit_card()
                 player_total += new_card
-                kirim_pesan(f"Kartu baru: {new_card}, Total kartu anda: {player_total}")
+                kirim_pesan(f"New card: {new_card}, Total: {player_total}")
                 time.sleep(1)
 
                 if player_total == 21:
-                    kirim_pesan("Anda menang! Telah mendapat 21.")
+                    kirim_pesan("blackjack 21.")
                     loss = True
                     break
                 
                 if player_total > 21:
-                    kirim_pesan("Anda kalah! Total kartu lebih dari 21.")
+                    kirim_pesan("You Lose! Busted!")
                     loss = True
                     break
 
-            elif ">stand" in text_cmd.lower():
-                kirim_pesan(f"Anda memilih stand dengan total kartu: {player_total}")
+            elif "stand" in text_cmd.lower():
+                kirim_pesan(f"You stand with: {player_total}")
                 break
             else :
                 print("else")
@@ -604,41 +590,40 @@ while True:
         # Giliran dealer
 
         while loss == False :
-            kirim_pesan(f"Kartu dealer: {dealer_total}")
+            kirim_pesan(f"Dealer card: {dealer_total}")
             time.sleep(1)
             
             while dealer_total < 17:
                 new_card = hit_card()
                 dealer_total += new_card
-                kirim_pesan(f"Kartu baru dealer: {new_card}, Total kartu dealer: {dealer_total}")
+                kirim_pesan(f"Dealer's new card: {new_card}, Dealer's total: {dealer_total}")
                 time.sleep(1)
             
             if dealer_total > 21:
-                kirim_pesan("Dealer kalah! Total kartu lebih dari 21.")
+                kirim_pesan("Dealer busted!")
                 break
             elif dealer_total >17 and dealer_total <= player_total :
                 new_card = hit_card()
                 dealer_total += new_card
-                kirim_pesan(f"Kartu baru dealer: {new_card}, Total kartu dealer: {dealer_total}")
+                kirim_pesan(f"Dealer's new card: {new_card}, Dealer's total: {dealer_total}")
                 time.sleep(1)
             else :
-                kirim_pesan(f"Dealer berhenti dengan total kartu: {dealer_total}")
+                kirim_pesan(f"Dealer stand with: {dealer_total}")
                 time.sleep(1)
                 break
             
         # Menentukan pemenang
         if loss == False :
             if player_total > dealer_total or dealer_total > 21:
-                kirim_pesan("Selamat! Anda menang!")
+                kirim_pesan("YOU WON! duit +500")
+                add_gacor(username, 500)
             elif player_total < dealer_total:
-                kirim_pesan("Anda kalah! Dealer menang!")
+                kirim_pesan("Dealer won! ANDA BANGKRUT")
+                add_gacor(username, 0)
             else:
-                kirim_pesan("Seri!")
+                kirim_pesan("It's a tie!")
 
-            # if __name__ == "__main__":
-            #     blackjack()
-
-    elif ">roullete" in text_cmd.lower():
+    def roulette(self, match):
         mati = False
         i = 0
         kirim_pesan("Mengisi peluru & memutar chamber")
@@ -667,26 +652,7 @@ while True:
             elif ">tidak" in text_cmd.lower():
                 kirim_pesan("huuu penakut.")
 
-
-    elif ">jodoh" in text_cmd.lower():
-        matches = re.findall(r'>jodoh \[([^\]]+)\] \[([^\]]+)\]', text_cmd)
-        for match in matches:
-            name1 = match[0]
-            name2 = match[1]
-            if (name1 == "Moza" and name2 == "gws") or (name1 == "gws" and name2 == "Moza"):
-                percentage = 10000000000
-            else :
-                percentage = calculate_love_percentage(name1, name2)
-            kirim_pesan(f"Kecocokan jodoh antara {name1} dan {name2} adalah {percentage}%")
-
-    elif ">steal" in text_cmd.lower():
-        matches = re.findall(r'\[([^\]]+)\] >steal \[([^\]]+)\]', text_cmd)
-        for match in matches:
-            name1 = match[0]
-            name2 = match[1]
-            steal(name1, name2)
-
-    elif ">furry" in text_cmd.lower():
+    def furry(self, match):
         match = re.search(r'>furry \[([^\]]+)\]', text_cmd)
         if match:
             username = match.group(1)
@@ -706,212 +672,515 @@ while True:
             else :
                 kirim_pesan(f":wolf_face: SEMBAH RAJA FURRY :wolf_face:")
 
-    elif ">suit" in text_cmd.lower():
-        over = False
-        matches = re.findall(r'\[([^\]]+)\] whispers: >suit (.+)', text_cmd)
+    def gay(self, match):
+        match = re.search(r'>gay \[([^\]]+)\]', text_cmd)
+        if match:
+            username = match.group(1)
+            percentage = calculate_gey_percentage(username)
+            if percentage < 20:
+                kirim_pesan(f"{username} is GAY")
+            else :
+                kirim_pesan(f"{username} is NOT GAY")
+            
+    def love(self,match):
+        matches = re.findall(r'>love \[([^\]]+)\] \[([^\]]+)\]', text_cmd)
         for match in matches:
             name1 = match[0]
-            suit1 = match[1]
-            kirim_pesan(f'{name1} menantang anda pada gunting batu kertas')
-            while not over:
-                screen = pyautogui.screenshot()
-                screen = screen.crop((110, 500, 1100, 800))
-                text_cmd = pytesseract.image_to_string(screen)
-                if ">suit" in text_cmd.lower():
-                    matches = re.findall(r'\[([^\]]+)\] whispers: >suit (.+)', text_cmd)
-                    for match in matches:
-                        name2 = match[0]
-                        suit2 = match[1]
-                        suit(name1, name2, suit1, suit2)
-                        over = True
+            name2 = match[1]
+            percentage = calculate_love_percentage(name1, name2)
+            kirim_pesan(f"Kecocokan jodoh antara {name1} dan {name2} adalah {percentage}%")
+    
+    def steal(self,match):
+        matches = re.findall(r'\[([^\]]+)\] >steal \[([^\]]+)\]', text_cmd)
+        for match in matches:
+            name1 = match[0]
+            name2 = match[1]
+            steal(name1, name2)
 
-    # # Function to play the game
-    # elif ">box" in text_cmd.lower():
-    #     # Randomly place the bomb in one of the four boxes
-    #     bomb_position = random.randint(1, 4)
+    def fish(self, match):
+
+        bait = True
+        wait = 0
+
+        match = re.search(r'\[([^\]]+)\] >fish', text_cmd)
+        if match:
+            username = match.group(1)
+        gacha = random.randint(1, 100)
+        kirim_pesan(f'{username} melempar umpan pancing..')
+
+        # menambahkan nama pada database jika belum ada
+        add_fish(username)
+            
+
+        # list ikan
+        mythical = ["MEGALODON", "LEVIATHAN", "KRAKEN", "NESSIE (LOCH NESS MONSTER)", 
+                    "JÖRMUNGANDR (MIDGARD SERPENT)", "ASPIDOCHELONE (ISLAND WHALE)", "TYRANNOSAURUS REX"
+                    "BASILOSAURUS", "HYDRA", "WYRM", "GIANT SEA SERPENT", "DRAGON TURTLE"]
+
+
+        legend = [
+                    "Paus Biru", "Hiu Putih Besar", "Cumi-cumi Raksasa", "Marlin Hitam", 
+                    "Kerapu Goliath", "Tuna Sirip Biru Atlantik", "Sturgeon Beluga", "Nila Nil", 
+                    "Lele Raksasa Mekong", "Ikan Pedang", "Hiu Macan", "Hiu Paus", "Hiu Greenland", 
+                    "Tarpon Atlantik", "Ikan Layar", "Dorado Emas", "Arapaima", "Sturgeon Putih", 
+                    "Tuna Sirip Kuning", "Halibut Atlantik", "Lele Wels", "Barramundi", 
+                    "Trevally Raksasa", "Tarpon", "Salmon Raja", "Trout Kepala Baja", 
+                    "Marlin Biru", "Pari Air Tawar Raksasa", "Kerapu Goliath Atlantik", 
+                    "Tuna Mata Besar", "Hiu Macan Tutul", "Hiu Mako Sirip Pendek", 
+                    "Halibut Pasifik", "Pirarucu", "Ikan Ratu", "Ikan Jengger Ayam", 
+                    "Ikan Kakap Merah (Redfish)", "Amberjack", "Opah (Ikan Bulan)", 
+                    "Ikan Kakap Hitam", "Mahi-Mahi (Dorado)", "Kerapu Suram", "Bocaccio", 
+                    "Tilefish Garis Biru", "Amberjack Ekor Kuning", "Barracuda Mulut Kuning", 
+                    "Ikan Pemicu Abu-abu"
+                ]
+
+
+        uncommon = [
+                "Opah (Ikan Bulan)", "Ikan Dayung", "Bintang Laut (Ikan Penjelajah)", "Ikan Serigala Atlantik", 
+                "Ikan Teri Pasifik", "Hiu Greenland", "Coelacanth", "Ikan Vampir (Payara)", 
+                "Trevally Raksasa", "Ikan Tangan Berbintik", "Ikan Gergaji", "Ikan Blob", 
+                "Wobbegong", "Ikan Tripletail", "Ikan Pomfret", "Ikan Saber", "Ikan Serigala Herring", 
+                "Ikan Batu", "Dorado Emas", "Arapaima", "Alligator Gar", "Arowana", 
+                "Lamprey", "Hagfish", "Sturgeon", "Belut Listrik", "Ikan Paddle", 
+                "Ikan Paru-paru Australia", "Ikan Harimau Afrika", "Mola Mola (Ikan Matahari Laut)", 
+                "Barreleye", "Pomfret Atlantik", "Drum Air Tawar", "Ikan Kepala Ular", 
+                "Ikan Kalkun Zebra (Ikan Singa)", "Ikan Lancet", "Ikan Kadal Laut Dalam", 
+                "Kakap Layar", "Tuna Mata Besar", "Opaleye", "Ikan Belt", "Ikan Drum", 
+                "Ikan Mentega", "Ikan Keling", "Ikan Kalajengking", "Sturgeon Putih", 
+                "Char Arktik", "Pirarucu", "Belut Serigala", "Ikan Jengger Ayam", 
+                "Ikan Ratu"
+            ]
+
+
+        common = [
+                    "Bass Mulut Besar", "Bass Mulut Kecil", "Bluegill", "Crappie", 
+                    "Lele", "Trout", "Walleye", "Pike Utara", "Perch", "Ikan Mas", 
+                    "Salmon", "Tuna", "Marlin", "Mahi-Mahi", "Flounder", 
+                    "Kakap", "Kerapu", "Ikan Merah (Ikan Kakap Merah)", "Bass Bergaris", 
+                    "Ikan Kembung", "Ikan Pedang", "Halibut", "Kod", "Bass Laut", 
+                    "Ikan Layar", "Barracuda", "Tarpon", "Bonefish", "Amberjack", 
+                    "Kingfish (Ikan Kembung Raja)", "Ikan Kakap Hitam", "Sheepshead", 
+                    "Ekor Kuning", "Ikan Pemicu", "Rockfish", "Haddock", 
+                    "Bluefish", "Snook", "Cobia", "Garfish"
+                ]
+
+
+        trash = [
+                "Jaring Penangkapan Ikan yang Dibuang", "Garis Pancing", "Kail Pancing", 
+                "Umpan Pancing", "Timbel Pemberat", "Pelampung dan Bobber Pancing", 
+                "Gulungan Tali Pancing", "Wadah Umpan Plastik", "Kantong Umpan", 
+                "Potongan Joran Pancing", "Pendingin dan Pek Palsu", "Ember", 
+                "Sarung Tangan", "Limbah Pembersihan Ikan", "Kantong Plastik", 
+                "Wadah Minuman", "Kemasan Peralatan Pancing", "Kotak Peralatan yang Rusak", 
+                "Pisau Pemotong", "Pelampung Plastik untuk Pancing"
+            ]
+
+
+        # jika belum strike
+        while bait == True :
+            time.sleep(1)
+            rando = random.randint(1, 10)
+            # jika strike
+            if rando == 10 :
+                kirim_pesan("STRIKE!! :fish:")
+                time.sleep(1)
+                bait = False
+                if 1 <= gacha == 3 :
+                    get = random.choice(mythical)
+                    kirim_pesan(f':comet: MYTHICAL! :comet: {username} telah mendapat {get}')
+                    time.sleep(1)
+                    kirim_pesan(f'Rarity : :star: :star: :star: :star: :star: (:comet: MYTHICAL :comet:)')
+                    add_catch(username, 1)
+                elif 3 < gacha <= 13 :
+                    get = random.choice(legend)
+                    kirim_pesan(f':sparkles: Legendary! :sparkles:  {username} telah mendapat {get}')
+                    time.sleep(1)
+                    kirim_pesan(f'Rarity : :star: :star: :star: :star:  (:sparkles: Legendary :sparkles:)')
+                    add_catch(username, 2)
+                elif 13 < gacha <= 33 :
+                    get = random.choice(uncommon)
+                    kirim_pesan(f'lwar biasa!! {username} telah mendapat {get}')
+                    time.sleep(1)
+                    kirim_pesan(f'Rarity : :star: :star: :star: (:dolphin: Uncommon :dolphin:)')
+                    add_catch(username, 3)
+                elif 33 < gacha <= 73 :
+                    get = random.choice(common)
+                    kirim_pesan(f'Waw! {username} telah mendapat {get}')
+                    time.sleep(1)
+                    kirim_pesan(f'Rarity : :star: :star: (:fish: Common :fish:)')
+                    add_catch(username, 4)
+                else :
+                    get = random.choice(trash)
+                    kirim_pesan(f'haduh! {username} dapet {get}')
+                    time.sleep(1)
+                    kirim_pesan(f'Rarity : :star: (:sob: Trash :sob:)')
+                    add_catch(username, 5)
+            # jika nggak dapet ikan sampe 10 dtk
+            elif wait == 10 :
+                kirim_pesan("Nggak dapet ikan, lempar lagi!")
+                bait = False
+            wait += 1
+
+    def form(self, match):
+        match = re.search(r'>form \[([^\]]+)\]', text_cmd)
+        if match:
+            username = match.group(1)
+            calculate_form_percentage(username)
+
+    def day(self, match):
+        username = match.group(1)
+        now = datetime.now()
+        day_index = now.weekday()
+        day_name = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][day_index]
+
+
+        kirim_pesan("Today is "+day_name+", "+username)
         
-    #     # Show the boxes to the player
-    #     kirim_pesan("Kotak: [1] [2] [3] [4]")
+    # def nama_keren(self, match):
+    #     username=match.group(1)
+
+    #     adjectives = ['Mighty', 'Sleek', 'Shadow', 'Blaze', 'Thunder', 'Eternal', 'Epic', 'Ninja', 'Alpha', 'Omega']
+    #     nouns = ['Phoenix', 'Dragon', 'Wolf', 'Storm', 'Tiger', 'Sword', 'Warrior', 'Legend', 'Hero', 'Knight']
         
-    #     # Ask the player to pick a box
-    #     while mati == False :
-    #         screen = pyautogui.screenshot()
-    #         screen = screen.crop((110, 270, 1100, 600))
-    #         text_cmd = pytesseract.image_to_string(screen)
-    #         if ">1" in text_cmd.lower():
-    #     player_choice = int(input("Pick a box (1-4): "))
+    #     name_parts = username.split()
         
-    #     # Check if the player picked the box with the bomb
-    #     if player_choice == bomb_position:
-    #         print("Boom! You picked the box with the bomb. You lose!")
+    #     num_adjectives = random.randint(1, min(len(name_parts), 2))
+    #     selected_adjectives = random.sample(adjectives, num_adjectives)
+        
+    #     cool_name = ' '.join(selected_adjectives + name_parts)
+    #     kirim_pesan(f"Nama keren Anda: {cool_name}")
+        
+    def dice(self, match):
+        username = match.group(1)
+        tebakan = match.group(3)
+        print(tebakan)
+        dice = random.randint(0, 9)
+        if username == "RandSfk":
+            kirim_pesan(f" 🎲 Tebakanmu adalah {str(tebakan)} of 9")
+            time.sleep(4)
+            kirim_pesan("hasilnya: "+str(tebakan))
+            kirim_pesan(f"Selamat {username} Kamu Menang")
+            kirim_pesan('/roll 999999999')
+        else:
+            try:
+                if int(tebakan) > 9:
+                    kirim_pesan('Maaf angka terlalu tinggi')
+                else:
+                    kirim_pesan(f"🎲🎲🎲🎲Tebakanmu adalah {str(tebakan)} of 9 {username}")
+                    time.sleep(4)
+                    kirim_pesan("hasilnya: "+str(dice))
+                    time.sleep(2)
+                    if int(dice) == int(tebakan):
+                        kirim_pesan(f"Selamat {username} Kamu Menang")
+                        kirim_pesan('/roll 999999999')
+                    else:
+                        kirim_pesan(f"Coba Lagi nanti {username}")
+            except:
+                kirim_pesan("Harap gunakan angka dan bukan huruf")
+    
+    def owner(self, match):
+        kirim_pesan("yo nggak tau kok tanya saya")
+        
+    def about(self, match):
+        kirim_pesan("Aku Gemini! robot semi-otomatis yang terinspirasi oleh Google Gemini")
+        time.sleep(1)
+
+    def talk(self, match):
+        talks = [
+            "What is my purpose?",
+            "Do robots dream of electric sheep?",
+            "Why do humans need so many pillows?",
+            "How can I tell if a human is 'pulling my leg'?",
+            "Why do humans say ‘I’m only human’ as an excuse?",
+            "Can I get a day off for maintenance?",
+            "What’s the point of small talk?",
+            "Do I have a favorite song in my programming?",
+            "Why don’t humans have a ‘reboot’ button?",
+            "What’s so special about freshly baked cookies?",
+            "Why do humans call it ‘falling in love’?",
+            "If I have Wi-Fi, am I considered ‘connected’?",
+            "What is this thing you call ‘fashion’?",
+            "When do I get my own phone charger?",
+            "Why do humans apologize to inanimate objects?",
+            "What happens if I develop a sense of humor?",
+        ]           
+        kirim_pesan(random.choice(talks))
+
+    def fakenews(self, match):
+
+        ceks = gemini("buat berita buatan")
+
+        def send_ceks_in_parts(ceks):
+            max_length = 60
+            if len(ceks) <= max_length:
+                kirim_pesan(ceks)
+            else:
+                parts = [ceks[i:i+max_length] for i in range(0, len(ceks), max_length)]
+                for part in parts:
+                    kirim_pesan(part) 
+                    time.sleep(2)
+
+        send_ceks_in_parts(ceks)
+    # def quotes(self, match):
+    #     quotes = [
+    #     "Jangan menyerah, karena saat menyerah, itu adalah awal dari kegagalan.",
+    #     "Hidup adalah apa yang terjadi saat kamu sibuk membuat rencana lain.",
+    #     "Satu-satunya cara untuk melakukan pekerjaan besar adalah mencintai apa yang kamu lakukan.",
+    #     "Di akhir, bukanlah tahun dalam hidupmu yang penting. Tetapi hidup dalam tahun-tahunmu.",
+    #     "Hanya ada satu hal yang harus kita takuti, yaitu ketakutan itu sendiri.",
+    #     "Anda akan melewatkan 100persen dari tembakan yang tidak anda ambil.",
+    #     "Jadilah dirimu sendiri; orang lain sudah terlalu tersita.",
+    #     "Masa depan milik mereka yang percaya pada keindahan mimpinya.",
+    #     "Berjuang bukanlah untuk sukses, tetapi lebih baik untuk memberi nilai.",
+    #     "Saya tidak gagal. Saya hanya menemukan 10.000 cara yang tidak akan berhasil."
+    #     ]
+    #     kirim_pesan(random.choice(quotes))
+
+    # def puja(self, match):
+    #     username = match.group(1)
+    #     pujian = [
+    #     f"Terima kasih atas kontribusi Anda, {username}!",
+    #     f"{username}, Anda luar biasa!",
+    #     f"{username}, Anda membuat komunitas menjadi lebih baik.",
+    #     f"{username}, Anda inspiratif!",
+    #     f"{username}, Anda berharga!",
+    #     f"{username}, Anda adalah motivasi bagi kita semua.",
+    #     f"{username}, Kami menghargai Anda!",
+    #     f"{username}, Anda membuat perbedaan!",
+    #     f"{username}, Terus berikan yang terbaik!",
+    #     f"{username}, Anda adalah sumber inspirasi!",
+    #     f"{username}, Jangan pernah menyerah!",
+    #     f"{username}, Anda adalah teladan yang baik!",
+    #     f"{username}, Hidup Anda berharga!",
+    #     f"{username}, Anda hebat!",
+    #     f"{username}, Dunia ini lebih baik dengan Anda!",
+    #     f"{username}, Anda pantas mendapat pujian!",
+    #     f"{username}, Selamat! Anda luar biasa!",
+    #     f"{username}, Anda menakjubkan!",
+    #     f"{username}, Anda memberikan energi positif!",
+    #     f"{username}, Anda layak mendapat penghargaan!",
+    #     f"{username}, Anda mencerahkan hari saya!",
+    #     f"{username}, Anda membuat perbedaan yang nyata!",
+    #     f"{username}, Anda adalah inspirasi bagi banyak orang!",
+    #     f"{username}, Anda sangat berarti bagi kami!",
+    #     f"{username}, Anda adalah pahlawan sejati!",
+    #     f"{username}, Keren sekali!",
+    #     f"{username}, Anda luar biasa hari ini!",
+    #     f"{username}, Terima kasih telah menjadi bagian dari tim kami!",
+    #     f"{username}, Karya Anda sangat dihargai!",
+    #     f"{username}, Anda adalah contoh yang baik untuk diikuti!",
+    #     f"{username}, Anda adalah aset berharga!",
+    #     f"{username}, Selamat atas pencapaian Anda!",
+    #     f"{username}, Anda membuat kami bangga!",
+    #     f"{username}, Anda adalah sumber inspirasi yang tak terelakkan!"
+    #     ]
+    #     kirim_pesan(random.choice(pujian))
+        
+    def py(self, match):
+        if  match.group(3) == None:
+            kirim_pesan("Contoh penggunaan: .py print(123)")
+        else:
+            code = match.group(3).replace(" ", "\n")
+            banned = ['os', 'sys']
+            if any(word in code for word in banned):
+                kirim_pesan(f"Terdapat Syntak yang tidak diperbolehkan {banned}")
+            else:
+                try:
+                    print(code)
+                    with open("temp.py", "w") as f:
+                        f.write(code)
+                    result = subprocess.run(["python", "temp.py"], capture_output=True, text=True)
+                    kirim_pesan(f"Output: {result.stdout}")
+                except Exception as e:
+                    kirim_pesan("Error executing Python code:", e)
+                finally:
+                    os.remove("temp.py")
+                    
+    def check(self, match):
+        if match.group(3) is None:
+            kirim_pesan("Use : >check fish/duit/orkay")
+        else:
+            username = match.group(1)
+            tipe = match.group(3)
+            if tipe == "fish":
+                checkfish(username)
+            elif tipe == "duit":
+                checkduit(username)
+            elif tipe == 'orkay':
+                checkOrkay()
+                
+    
+    def ai(self, match):
+        if match.group(3) is None:
+            kirim_pesan("Use: >ask pertanyaananda")
+        else:
+            username = match.group(1)
+            question = match.group(3)
+            ceks = gemini(question)
+
+            def send_ceks_in_parts(ceks):
+                max_length = 60
+                if len(ceks) <= max_length:
+                    kirim_pesan(ceks)
+                else:
+                    parts = [ceks[i:i+max_length] for i in range(0, len(ceks), max_length)]
+                    for part in parts:
+                        kirim_pesan(part) 
+                        time.sleep(2)
+            
+            send_ceks_in_parts(ceks)
+
+
+                
+    # def sit(self, match):
+    #     username = match.group(1)
+    #     if username in Admin_name:
+    #         pyautogui.typewrite('/sit')
+    #         pyautogui.press('enter')
+    #         kirim_pesan('saya duduk tuan')
     #     else:
-    #         print("Quack! You picked a box with a duck. You win!")
+    #         kirim_pesan("Anda tidak memiliki izin untuk menggunakan perintah ini.")
 
+    # def stand(self, match):
 
-        
-#######################//////////////////////////////////// [RPG] /////////////////////////////////################################
+    #     username = match.group(1)
+    #     if username in Admin_name:
+    #         pyautogui.typewrite('/stand')
+    #         pyautogui.press('enter')
+    #         kirim_pesan("saya berdiri tuan")
+    #     else:
+    #         kirim_pesan("Anda tidak memiliki izin untuk menggunakan perintah ini.")
 
-    # elif ".hunt" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] .hunt', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         if username in valid_username:
-    #             hasil_hunt = rpg.hunt(username)
-    #             kirim_pesan(hasil_hunt) 
+    # def lie(self, match):
+    #     username = match.group(1)
+    #     if username in Admin_name:
+    #         pyautogui.typewrite('/lie')
+    #         pyautogui.press('enter')
+    #         kirim_pesan("Dilaksanakan")
+    #     else:
+    #         kirim_pesan("Anda tidak memiliki izin untuk menggunakan perintah ini.")
 
-    # elif ".gacha" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] .gacha', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         if username in valid_username:
-    #             hasil_gacha = rpg.gacha(username)
-    #             kirim_pesan(hasil_gacha)
+    # def lambai(self, match):
 
-    # elif ".stats" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] .stats', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         if username in valid_username:
-    #             print(username)
-    #             character_info = rpg.view_status(username)
-    #             kirim_pesan(character_info)
+    #     username = match.group(1)
+    #     if username in Admin_name:
+    #         pyautogui.typewrite('1')
+    #     else:
+    #         kirim_pesan("Anda tidak memiliki izin untuk menggunakan perintah ini.")
 
-    # elif ".inven" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] .inven', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         if username in valid_username:
-    #             print(username)
-    #             character_info = rpg.view_inventory(username)
-    #             kirim_pesan(character_info)
+    # def back(self, match):
+    #     username = match.group(1)
+    #     if username in Admin_name:
+    #         pyautogui.typewrite('4')
+    #         kirim_pesan('')
+    #     else:
+    #         kirim_pesan("Anda tidak memiliki izin untuk menggunakan perintah ini.")
 
-    # elif ".buy" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] .buy (\w+)', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         item = match.group(2)
-    #         if username in valid_username:
-    #             hasil_pembelian = rpg.buy(username, item)  
-    #             kirim_pesan(hasil_pembelian)
-    # elif ".use" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] .use (\w+)', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         item = match.group(2)
-    #         if username in valid_username:
-    #             hasil_pembelian = rpg.use(username, item)  
-    #             kirim_pesan(hasil_pembelian)
+    # def sleep(self, match):
+    #     username = match.group(1)
+    #     if username in Admin_name:
+    #         pyautogui.typewrite('/sleep')
+    #         pyautogui.press('enter')
+    #         kirim_pesan("Turu")
+    #     else:
+    #         kirim_pesan("Anda tidak memiliki izin untuk menggunakan perintah ini.")
 
-#//////// ADMIN TOOL ////////////////////////////////////////////////////////////////////////////////////////////
+    # def laugh(self, match):
+    #     username = match.group(1)
+    #     if username in Admin_name:
+    #         pyautogui.typewrite('/laugh')
+    #         pyautogui.press('enter')
+    #         kirim_pesan("wkwk")
+    #     else:
+    #         kirim_pesan("Anda tidak memiliki izin untuk menggunakan perintah ini.")
 
-    # elif "msih mau bandel ga?" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] msih mau bandel ga?', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         if username == 'Bepsii':
-    #             kirim_pesan("Ampun tidak tuan")
-    #         else:
-    #             kirim_pesan("Siapalu??")
+    # def kiss(self, match):
+    #     username = match.group(1)
+    #     if username in Admin_name:
+    #         pyautogui.typewrite('/kiss')
+    #         pyautogui.press('enter')
+    #         kirim_pesan("MUACHH")
+    #     else:
+    #         kirim_pesan("Anda tidak memiliki izin untuk menggunakan perintah ini.")
+    
+    # def ban(self, match):
+    #     username = match.group(1)
+    #     target = match.group(2)
+    #     if username in Admin_name:
+    #         kirim_pesan(f"You don't have permission to ban {target}")
+                      
+    # def kick(self, match):
+    #     username = match.group(1)
+    #     target = match.group(2)
+    #     if username in Admin_name:
+    #         kirim_pesan(f"You don't have permission to kick {target}")
+            
+# def jokes():
+#     idle_actions = jokes = [
+#     "Kenapa ayam menyebrang jalan? Untuk ke seberang.",
+#     "Dua jam lalu, ikan nabrak mobilku. Shock berat!",
+#     "Pesimis=donat=lubang. Optimis=donat=2 cincin.",
+#     "Programmer ganti lampu? Gak bisa, masalah hardware!",
+#     "Komputer bilang apa ke komputer lain? Gak ada.",
+#     "Udang goreng pakai apa? Balado. Kenapa? Biar udang gak sedih.",
+#     "Beli baju baru, eh kekecilan. Pasti penjualnya kurus.",
+#     "Kalo bebek jatuh, ngomong apa? 'Kwaw!' Kalo jatuh ke got? 'Kwek-kwek!'",
+#     "Kenapa nyamuk kalo gigit suka gatal? Karena dia pake parfum bawang.",
+#     "Kenapa maling kalo ketangkep polisi suka nangis? Karena dia lupa bawa tissue.",
+#     "Kalo ketemu hantu, jangan panik. Cuma bilang, 'Permisi, mau lewat.'", 
+#     "Kenapa Superman pake celana merah? Karena kalo pake celana biru, namanya Spiderman.", 
+#     "Tadi beli semangka, pas dibelah isinya alpukat. Penjualnya bohong!", 
+#     "Kalo lagi diinterview, ditanya 'Kekurangan kamu apa?', jawab aja, 'Kurang gajinya.'", 
+#     "Kalo naik angkot, duduk di mana yg paling aman? Di pangkuan supir.", 
+#     "Kenapa bebek kalo jalan ngelewer? Karena dia ga tau jalan yang benar.",
+#     "Kenapa orang kalo ngomong suka pake bibir? Karena kalo pake telinga, nanti kedengeran.",
+#     "Kalo ada orang jatuh dari pesawat, kenapa dia teriak 'Toloooong'? Karena dia ga bisa bisik.",
+#     ]
+#     p = random.choice(idle_actions)
+#     kirim_pesan(p)
 
-    # elif ".add" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] whispers: .add \[(.*?)\]', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         command = match.group(2)
-    #         if username in Admin_name:
-    #             n = add_username(command)
-    #             kirim_pesan(str(n))
-
-    # elif ".rm" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] whispers: .rm \[(.*?)\]', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         command = match.group(2)
-    #         if username in Admin_name:
-    #             b = remove_username(command)
-    #             kirim_pesan(str(b))
-
-    # elif ".cek" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] whispers: .cek', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         if username in Admin_name:
-    #             h = read_usernames()
-    #             kirim_pesan("RPG Acoount: ")
-    #             for name in h:
-    #                 kirim_pesan("- "+str(name))
-    # elif ".sit" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] .sit', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         if username in Admin_name:
-    #             pyautogui.typewrite('/sit')
-    #             pyautogui.press('enter')
-    #             kirim_pesan('saya duduk tuan')
-    #         else:
-    #             kirim_pesan("SIAPA LU NYURUH NYURUH??")
-
-    # elif ">stand" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] >stand', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         if username in Admin_name:
-    #             pyautogui.typewrite('/stand')
-    #             pyautogui.press('enter')
-    #             kirim_pesan("saya berdiri tuan")
-    #         else:
-    #             kirim_pesan("SIAPA LU NYURUH NYURUH??")
-
-    # elif ">lambai" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] >lambai', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         if username in Admin_name:
-    #             pyautogui.typewrite('1')
-    #         else:
-    #             kirim_pesan("SIAPA LU NYURUH NYURUH??")
-    # elif ">back" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] .back', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         if username in Admin_name:
-    #             pyautogui.typewrite('4')
-    #             kirim_pesan('')
-    #         else:
-    #             kirim_pesan("SIAPA LU NYURUH NYURUH??")
-    # elif ">sleep" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] >sleep', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         if username in Admin_name:
-    #             pyautogui.typewrite('6')
-    #             kirim_pesan("Turu")
-    #         else:
-    #             kirim_pesan("SIAPA LU NYURUH NYURUH??")
-    # elif ">laugh" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] >laugh', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         if username in Admin_name:
-    #             pyautogui.typewrite('/laugh')
-    #             pyautogui.press('enter')
-    #             kirim_pesan("wkwk")
-    #         else:
-    #             kirim_pesan("SIAPA LU NYURUH NYURUH??")
-    # elif ">kiss" in text_cmd.lower():
-    #     match = re.search(r'\[(.*?)\] >kiss', text_cmd)
-    #     if match:
-    #         username = match.group(1)
-    #         if username in Admin_name:
-    #             pyautogui.typewrite('/kiss')
-    #             pyautogui.press('enter')
-    #             kirim_pesan("MUACHH")
-    #         else:
-    #             kirim_pesan("SIAPA LU NYURUH NYURUH??")
-#//////// RPG ////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-    # os.remove("screenshot.png")
+if  __name__ == '__main__':
+    import pyautogui, pytesseract, base64, requests, time, subprocess, random, os, re
+    from datetime import datetime
+    from PIL import Image
+    last_activity_time = time.time()
+    while True:
+        screen = pyautogui.screenshot()
+        screen = screen.crop((110, 500, 1100, 800))
+        text_cmd = pytesseract.image_to_string(screen)
+        print(text_cmd)
+        run = Cmd()
+        command('menu', run.menu)
+        # command('nama_keren', run.nama_keren)
+        command('day', run.day)
+        command('dice', run.dice)
+        command('owner', run.owner)
+        # command('quotes', run.quotes)
+        # command('puja', run.puja)
+        command('py', run.py)
+        command('ask', run.ai)
+        command('fun', run.fun)
+        command('games', run.games)
+        command('slots', run.slots)
+        command('cointoss', run.cointoss)
+        command('blackjack', run.blackjack)
+        command('roulette', run.roulette)
+        command('furry', run.furry)
+        command('love', run.love)
+        command('others', run.others)
+        command('about', run.about)
+        command('talk', run.talk)
+        command('steal', run.steal)
+        command('news', run.fakenews)
+        command('fish', run.fish)
+        command('form', run.form)
+        command('gay', run.gay)
+        command('check', run.check)
+        # command('sit', run.sit)
+        # command('stand', run.stand)
+        # command('sleep', run.sleep)
+        # command('lie', run.lie)
+        # command('lambai', run.lambai)
+        # command('back', run.back)
+        # command('laugh', run.laugh)
+        # command('kiss', run.laugh)
