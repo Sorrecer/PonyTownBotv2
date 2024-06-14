@@ -6,7 +6,7 @@ import time, random, re, pyautogui, pytesseract, os, requests, subprocess, rpg, 
 BotName = "Rick's Bot"
 Admin_name = ['I AM RICK']
 prefix = ['+', '>', '-']
-apikey="AIzaSyDb0-LMWXLjAiZZdKcMsXpkqqxWGXhAu6A"
+apikey="AIzaSyDIdODxrZYkAnzKAic1eR3NVSG69WVSRKA"
 pytesseract.pytesseract.tesseract_cmd = r'D:\Tesseract\tesseract.exe'
 ###======= Bot Configuration =======###
 
@@ -100,6 +100,17 @@ def steal(name1, name2):
     ]
     item = random.choice(items)
     kirim_pesan(f"{name1} telah mencuri {item} dari {name2}!")
+
+def suit(name1, name2, suit1, suit2):
+    #condition 1
+    if suit1 == suit2 :
+        kirim_pesan(f'seri! kedua pemain telah memilih {suit1}')
+    elif (suit1 == 'gunting' and suit2 == 'kertas') or \
+        (suit1 == 'batu' and suit2 == 'gunting') or \
+        (suit1 == 'kertas' and suit2 == 'batu'):
+        kirim_pesan(f'{suit1} vs {suit2}. {name2} kalah! {name1} menang!')
+    else:
+        kirim_pesan(f'{suit1} vs {suit2}. {name1} kalah! {name2} menang!')
 
 def add_fish(name):
         with open("fish_database.txt", "r+") as file:
@@ -288,6 +299,103 @@ def calculate_furry_percentage(name1):
     
     return percentage
 
+def calculate_power(name1):
+    powers = [
+    "Mampu mendeteksi warna cat yang mengering",
+    "Mengubah rasa air menjadi rasa mentimun",
+    "Menyilaukan diri sendiri dengan refleksi",
+    "Dapat menggerakkan satu helai rambut",
+    "Mampu berbicara dengan patung",
+    "Memiliki ingatan yang sempurna untuk iklan TV",
+    "Mampu menyelipkan daun ke pintu tanpa suara",
+    "Mengetahui semua waktu buka restoran tutup di daerah terpencil",
+    "Mampu membuat udara di dalam air mineral",
+    "Mengendus jejak yang tidak terlihat",
+    "Mengubah nada dering menjadi lagu",
+    "Mampu mengingatkan seseorang tentang topik percakapan yang terlupakan",
+    "Mengubah warna cacing tanah",
+    "Dapat meramalkan pola tidur kucing tetangga",
+    "Menyusun ulang kata-kata tanpa mengubah maknanya",
+    "Mempercepat pembusukan buah selama 5 menit",
+    "Mampu membuat bola lampu berkedip sekali",
+    "Menggandakan panjang waktu dalam antrean",
+    "Mendeteksi keberadaan payung dalam radius 10 meter",
+    "Mampu mengubah suhu air sebanyak satu derajat Celsius setiap jam",
+    "Menghilangkan satu inci ketinggian bayangan",
+    "Mengetahui semua nama karakter film latar belakang",
+    "Membuat jendela berembun tanpa menyentuhnya",
+    "Mengatur ulang rasa kacang menjadi acak",
+    "Dapat membuat aroma bunga menghilang selama 2 detik",
+    "Mengubah warna lembaran daun setiap musim gugur",
+    "Mengidentifikasi suara plastik yang terurai",
+    "Membuat noda kopi menjadi tidak terlihat selama 1 menit",
+    "Mengganti warna sinar UV menjadi RGB dalam penglihatan",
+    "Mampu mendengar suara dari jarak yang sangat dekat",
+    "Mengetahui berat benda tanpa menimbangnya",
+    "Mengubah frekuensi suara mesin cuci",
+    "Menghapus jejak sidik jari digital selama 10 detik",
+    "Mengetahui jumlah kacang dalam toples besar",
+    "Dapat membuat gelas air tidak berbunyi saat bersentuhan dengan meja",
+    "Mengubah rasa makanan yang sudah dimakan",
+    "Mengetahui arah angin dalam ruangan tertutup",
+    "Mampu membuat lampu lalu lintas tetap hijau lebih lama selama 1 detik",
+    "Menebak jumlah halaman kosong dalam buku",
+    "Menyinkronkan putaran jam tangan dengan rotasi bumi"
+    "Penyembuhan Instan",             # Menyembuhkan diri atau orang lain dari luka atau penyakit dengan cepat.
+    "Telekinesis",                    # Memindahkan objek dengan pikiran.
+    "Invisibility",                   # Menjadi tidak terlihat kapan saja.
+    "Teleportasi",                    # Memindahkan diri ke mana saja secara instan.
+    "Membaca Pikiran",                # Mengetahui apa yang orang lain pikirkan.
+    "Kontrol Waktu",                  # Menghentikan, mempercepat, atau memperlambat waktu.
+    "Kekuatan Super",                 # Memiliki kekuatan fisik jauh di atas rata-rata manusia.
+    "Membuat Perisai Energi",         # Membuat perisai yang dapat melindungi dari serangan fisik atau energi.
+    "Membuat Kembali Benda Rusak",    # Memperbaiki benda yang rusak atau hancur menjadi utuh kembali.
+    "Memanipulasi Elemen Alam",       # Mengendalikan elemen seperti api, air, tanah, atau angin.
+    "Membaca Masa Depan",             # Mengetahui peristiwa yang akan terjadi.
+    "Super Kecepatan",                # Bergerak dengan kecepatan luar biasa.
+    "Kontrol Pikiran",                # Memengaruhi atau mengendalikan pikiran orang lain.
+    "Kemampuan untuk Terbang",        # Terbang di udara.
+    "Memanipulasi Gravitasi",         # Mengubah gravitasi untuk diri sendiri atau objek lain.
+    "Daya Ingatan Fotografi",         # Mengingat segala sesuatu dengan detail yang sempurna.
+    "Berkomunikasi dengan Binatang",  # Mengerti dan berbicara dengan hewan.
+    "Menghentikan Penuaan",           # Menghentikan proses penuaan.
+    "Mengendalikan Teknologi",        # Mengendalikan perangkat elektronik dan digital.
+    "Berubah Bentuk",                 # Mengubah penampilan atau bentuk fisik menjadi orang lain atau objek.
+    "Bernafas di Bawah Air",          # Bernapas tanpa kesulitan di dalam air.
+    "Pemahaman Instan Semua Bahasa",  # Memahami dan berbicara semua bahasa.
+    "Regenerasi Energi",              # Mengisi ulang energi atau stamina dengan cepat.
+    "Penciptaan Ilusi",               # Membuat ilusi yang dapat dilihat dan dirasakan oleh orang lain.
+    "Kemampuan Analisis Tinggi",      # Menganalisis situasi dengan cepat dan akurat.
+    "Mengendalikan Tanaman",          # Mempercepat pertumbuhan atau memanipulasi tanaman.
+    "Adaptasi Lingkungan",            # Menyesuaikan diri dengan kondisi lingkungan ekstrem.
+    "Kemampuan Pemecahan Masalah",    # Menyelesaikan masalah kompleks dengan cepat.
+    "Kekuatan Magnetik",              # Mengendalikan medan magnet dan logam.
+    "Meningkatkan Kreativitas",       # Memunculkan ide-ide kreatif dengan cepat.
+    "Kekuatan Penyembuhan Alami",     # Menyembuhkan luka atau penyakit dengan bahan-bahan alami.
+    "Berkomunikasi Telepati",         # Berkomunikasi dengan orang lain tanpa suara.
+    "Kontrol Suhu Tubuh",             # Mengatur suhu tubuh agar tetap nyaman dalam kondisi ekstrem.
+    "Perjalanan Dimensi",             # Bepergian antara dimensi atau realitas yang berbeda.
+    "Kekuatan Suara",                 # Menggunakan suara untuk menciptakan getaran atau gelombang energi.
+    "Penglihatan Menembus Benda",     # Melihat melalui objek padat.
+    "Menghilangkan Rasa Takut",       # Mengatasi atau menghilangkan rasa takut.
+    "Mengendalikan Pikiran Sendiri",  # Mengatur emosi dan pikiran sendiri dengan sempurna.
+    "Mengubah Suhu Lingkungan",       # Menurunkan atau menaikkan suhu di sekitar.
+    "Penyimpanan di Dimensi Lain",    # Menyimpan objek di dimensi alternatif untuk menghemat ruang."
+]
+    # Hashing kombinasi nama menggunakan SHA256
+
+    hash_object = hashlib.sha256((name1.lower()).encode())
+    hex_dig = hash_object.hexdigest()
+    
+    # Mengambil 2 karakter pertama dari hash dan mengubahnya menjadi integer
+    hash_int = int(hex_dig[:2], 16)
+    
+    # Menghitung persentase kecocokan dari 0 hingga 100
+    percentage = hash_int % 79
+    kirim_pesan(f'Kekuatan super dari {name1} adalah.....')
+    time.sleep(2)
+    kirim_pesan(f'{powers[percentage]}')
+
 def calculate_gey_percentage(name1):
     # Hashing kombinasi nama menggunakan SHA256
 
@@ -355,23 +463,43 @@ def split_text(text, max_length=70):
 
     return lines
 
+import requests
+
+import requests
+
 def gemini(meseg):
     headers = {
         'Content-Type': 'application/json',
-        'x-goog-api-key': apikey}
+        'x-goog-api-key': apikey
+    }
+
+     # Correct safety settings with valid categories
+    safety_settings = [
+        {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": 0},
+        {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": 0},
+        {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": 0},
+        {"category": "HARM_CATEGORY_HARASSMENT", "threshold": 0}
+    ]
+
     data = {
         "contents": [
             {
                 "role": "user",
                 "parts": [
                     {
-                        "text": meseg+". (jawab dengan sangat singkat, kurang dari 60 karakter)"
+                        "text": meseg + ". (jawab dengan singkat 1-2 kalimat, kurang dari 200 karakter)"
                     }
                 ]
             }
-        ]
+        ],
+        "safetySettings": safety_settings
     }
-    response = requests.post("https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent", headers=headers, json=data)
+
+    response = requests.post(
+        "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent",
+        headers=headers,
+        json=data
+    )
 
     if response.status_code == 200:
         response_data = response.json()
@@ -380,9 +508,13 @@ def gemini(meseg):
             content_parts = candidates[0].get("content", {}).get("parts", [])
             text_parts = [part["text"] for part in content_parts if "text" in part]
             response_text = " ".join(text_parts)
-            return(response_text)
+            return response_text
         else:
             print("No candidates found.")
+    else:
+        print(f"Error: {response.status_code}")
+        print(response.text)
+
 
 # Definisikan fungsi check
 def checkfish(name):
@@ -396,7 +528,7 @@ def checkfish(name):
             
             if data[0].lower() == name.lower():
                 # Mencetak hasil dalam format yang diinginkan
-                kirim_pesan(f"{name.capitalize()} mythical: {data[1]}, legendary: {data[2]}, uncommon: {data[3]}")
+                kirim_pesan(f"{name.capitalize()}: M:{data[1]} L:{data[2]} U:{data[3]} C:{data[4]} T:{data[5]}")
                 return  # Keluar dari fungsi setelah menemukan data yang sesuai
         
         # Jika tidak ditemukan
@@ -518,6 +650,8 @@ class Cmd:
 
     def fun(self, match):
         kirim_pesan(">steal [name], >furry [name], >love [name1] [name2], >form[name]")
+        time.sleep(2)
+        kirim_pesan(">gay [name], >power [name]")
 
     def others(self, match):
         kirim_pesan(">ask, >news, >talk, >about")
@@ -548,6 +682,21 @@ class Cmd:
             kirim_pesan("anda bangkrut :sob:")
             add_gacor(username, 0)
 
+    def guntingbatukertas(self, match):
+        over = False
+        name1 = match.group(1)
+        suit1 = match.group(2)
+        kirim_pesan(f'{name1} menantang anda pada gunting batu kertas')
+        while not over:
+            screen = pyautogui.screenshot()
+            screen = screen.crop((110, 500, 1100, 800))
+            text_cmd = pytesseract.image_to_string(screen)
+            if ">suit" in text_cmd.lower():
+                name2 = match.group(1)
+                suit2 = match.group(2)
+                suit(name1, name2, suit1, suit2)
+                over = True
+    
     def blackjack(self, match):
         username = match.group(1)
         loss = False
@@ -681,6 +830,12 @@ class Cmd:
                 kirim_pesan(f"{username} is GAY")
             else :
                 kirim_pesan(f"{username} is NOT GAY")
+
+    def powers(self, match):
+        match = re.search(r'>power \[([^\]]+)\]', text_cmd)
+        if match:
+            username = match.group(1)
+            percentage = calculate_power(username)
             
     def love(self,match):
         matches = re.findall(r'>love \[([^\]]+)\] \[([^\]]+)\]', text_cmd)
@@ -748,7 +903,7 @@ class Cmd:
                 "Kakap Layar", "Tuna Mata Besar", "Opaleye", "Ikan Belt", "Ikan Drum", 
                 "Ikan Mentega", "Ikan Keling", "Ikan Kalajengking", "Sturgeon Putih", 
                 "Char Arktik", "Pirarucu", "Belut Serigala", "Ikan Jengger Ayam", 
-                "Ikan Ratu"
+                "Ikan Ratu", "Ikan buntal"
             ]
 
 
@@ -1176,6 +1331,8 @@ if  __name__ == '__main__':
         command('form', run.form)
         command('gay', run.gay)
         command('check', run.check)
+        command('suit', run.guntingbatukertas)
+        command('power', run.powers)
         # command('sit', run.sit)
         # command('stand', run.stand)
         # command('sleep', run.sleep)

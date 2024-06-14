@@ -1,11 +1,37 @@
 name,mythical,legendary,uncommon,common,trash
-Gemini,0,0,6,3,2
-wolpi,0,3,4,13,7
-| Conqueror sekai |,0,0,0,2,2
+Gemini,0,2,9,6,5
+wolpi,1,4,12,31,10
+| Conqueror sekai |,0,0,9,12,7
 | Conqueror sekai | #2,0,0,9,8,5
 cantik,0,1,0,0,1
-hiryuu,0,1,0,0,0
+hiryuu,0,1,1,1,0
 Pony,0,0,0,1,0
 Otak petrik star,0,0,0,0,1
 Fat pony/tomato(dnc) ,0,0,0,1,0
 (LEGACY) Woods,0,1,0,1,0
+Aye! [Furry,0,0,0,1,1
+Wip | ikan+kuda=attera,0,0,0,0,1
+wip,0,0,0,1,0
+angelina,0,0,0,0,0
+Hamburg Family|Yooki,0,0,0,0,0
+Kecebur got,0,5,2,8,5
+Kudaranai,0,1,4,4,5
+Plats VGH A PAINEA VIE CU gy Ste
+23 PM [Kecebur got,0,0,0,0,0
+PM [Kecebur got,0,0,0,0,0
+| afk dulu ygy
+29 PM [Kudaranai,0,0,0,0,0
+Yangyang (WuWa),0,1,0,0,0
+Bepsii,0,0,0,0,0
+—rio!,1,1,0,0,3
+- =e nerd,0,0,0,0,1
+—tio!,0,0,0,1,0
+ganteng,0,0,1,0,0
+He Was A Fairy "if | Bapao ga mau nikah ama gajah ToTT
+9:39 AM [—rio!,0,0,0,0,0
+Njr,0,0,1,0,1
+Intelejen epep,0,0,1,1,0
+KuroiHana,0,0,0,1,0
+Fat pony/tomato(dne) ,0,0,0,0,1
+daisy nerd.,0,0,0,1,1
+Wriothesley,0,0,0,1,1
