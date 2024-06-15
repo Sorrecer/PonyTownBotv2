@@ -1,5 +1,7 @@
 from PIL import Image
 from datetime import datetime
+from characterai import aiocai
+import asyncio
 import time, random, re, pyautogui, pytesseract, os, requests, subprocess, rpg, sys, hashlib
 ###======= Bot Configuration =======###
 
@@ -9,7 +11,6 @@ prefix = ['+', '>', '-']
 apikey="AIzaSyDIdODxrZYkAnzKAic1eR3NVSG69WVSRKA"
 pytesseract.pytesseract.tesseract_cmd = r'D:\Tesseract\tesseract.exe'
 ###======= Bot Configuration =======###
-
 
 
 ###======= Setup =======###
@@ -28,6 +29,68 @@ pytesseract.pytesseract.tesseract_cmd = r'D:\Tesseract\tesseract.exe'
 # except ModuleNotFoundError:
 #     os. system("pip install pyautogui")
 ###======= Setup =======###
+
+def send_ceks_in_parts(ceks):
+    max_length = 70
+    # Ganti enter dengan spasi dan hapus spasi ekstra di awal/akhir teks
+    ceks = ceks.replace('\n', ' ').strip()
+    words = ceks.split(' ')
+    
+    current_part = []
+    current_length = 0
+
+    for word in words:
+        if current_length + len(word) + 1 <= max_length:  # +1 untuk spasi yang akan ditambahkan
+            current_part.append(word)
+            current_length += len(word) + 1
+        else:
+            kirim_pesan(' '.join(current_part))
+            time.sleep(3)
+            current_part = [word]
+            current_length = len(word) + 1
+    
+    # Kirim bagian terakhir jika ada kata yang tersisa
+    if current_part:
+        kirim_pesan(' '.join(current_part))
+
+async def cai(username):
+    bye = False
+    char = '4WOVrCApi4JYwfYwU2e5eDeFalLOkGBw6IfUZPX1XVQ'
+
+    client = aiocai.Client('335b4d5c1c3fa11ae78060646e343d8a91c434a6')
+
+    me = await client.get_me()
+
+    async with await client.connect() as chat:
+        new, answer = await chat.new_chat(
+            char, me.id
+        )
+
+        send_ceks_in_parts(f'"{answer.text}"')
+        
+        while bye == False:
+            screen = pyautogui.screenshot()
+            screen = screen.crop((110, 500, 1100, 800))
+            text_cmd = pytesseract.image_to_string(screen)
+            # Stop chatting
+            if "bye gojo" in text_cmd.lower():
+                bye = True
+            else:
+                # Define the regex pattern
+                pattern = re.compile(rf'\[{re.escape(username)}\] (.+)')
+                
+                # Search for the pattern in the captured text
+                match = pattern.search(text_cmd)
+                
+                if match:
+                    text = match.group(1)  # Extract the first captured group
+                    
+                    # Sending message to Character AI
+                    message = await chat.send_message(
+                        char, new.chat_id, text
+                    )
+                    send_ceks_in_parts(f'"{message.text}"')
+
 
 def steal(name1, name2):
     items = [
@@ -528,7 +591,7 @@ def checkfish(name):
             
             if data[0].lower() == name.lower():
                 # Mencetak hasil dalam format yang diinginkan
-                kirim_pesan(f"{name.capitalize()}: M:{data[1]} L:{data[2]} U:{data[3]} C:{data[4]} T:{data[5]}")
+                kirim_pesan(f"{name.capitalize()} :comet:M:{data[1]} :sparkles:L:{data[2]} :dolphin:U:{data[3]} :fish:C:{data[4]} :sob:T:{data[5]}")
                 return  # Keluar dari fungsi setelah menemukan data yang sesuai
         
         # Jika tidak ditemukan
@@ -645,6 +708,10 @@ class Cmd:
         else:
             menu()
 
+    def talkai(self, match):
+        username = match.group(1)
+        asyncio.run(cai(username))
+    
     def games(self, match):
         kirim_pesan(">fish, >cointoss, >slots, >blackjack, >roulette")
 
@@ -1064,18 +1131,17 @@ class Cmd:
     def fakenews(self, match):
 
         ceks = gemini("buat berita buatan")
-
-        def send_ceks_in_parts(ceks):
-            max_length = 60
-            if len(ceks) <= max_length:
-                kirim_pesan(ceks)
-            else:
-                parts = [ceks[i:i+max_length] for i in range(0, len(ceks), max_length)]
-                for part in parts:
-                    kirim_pesan(part) 
-                    time.sleep(2)
-
         send_ceks_in_parts(ceks)
+
+    def funfact(self, match):
+
+        ceks = gemini("beritahu saya funfact")
+        send_ceks_in_parts(ceks)   
+        
+    def history(self, match):
+
+        ceks = gemini("beritahu saya fakta sejarah unik")
+        send_ceks_in_parts(ceks)        
     # def quotes(self, match):
     #     quotes = [
     #     "Jangan menyerah, karena saat menyerah, itu adalah awal dari kegagalan.",
@@ -1172,17 +1238,6 @@ class Cmd:
             username = match.group(1)
             question = match.group(3)
             ceks = gemini(question)
-
-            def send_ceks_in_parts(ceks):
-                max_length = 60
-                if len(ceks) <= max_length:
-                    kirim_pesan(ceks)
-                else:
-                    parts = [ceks[i:i+max_length] for i in range(0, len(ceks), max_length)]
-                    for part in parts:
-                        kirim_pesan(part) 
-                        time.sleep(2)
-            
             send_ceks_in_parts(ceks)
 
 
@@ -1298,10 +1353,9 @@ if  __name__ == '__main__':
     import pyautogui, pytesseract, base64, requests, time, subprocess, random, os, re
     from datetime import datetime
     from PIL import Image
-    last_activity_time = time.time()
     while True:
         screen = pyautogui.screenshot()
-        screen = screen.crop((110, 500, 1100, 800))
+        screen = screen.crop((110, 500, 1100, 660))
         text_cmd = pytesseract.image_to_string(screen)
         print(text_cmd)
         run = Cmd()
@@ -1333,6 +1387,9 @@ if  __name__ == '__main__':
         command('check', run.check)
         command('suit', run.guntingbatukertas)
         command('power', run.powers)
+        command('hello', run.talkai)
+        command('fact', run.funfact)
+        command('history', run.history)
         # command('sit', run.sit)
         # command('stand', run.stand)
         # command('sleep', run.sleep)

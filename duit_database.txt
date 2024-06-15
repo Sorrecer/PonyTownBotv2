@@ -1,5 +1,5 @@
 name,duit
-Gemini,500
+Gemini,1200
 Wolpi,2500
 angelina,0
 Otak petrik star,0
@@ -11,7 +11,11 @@ Fat pony/tomato(dnc) ©) (©) ,0
 melon Wangy,0
 wip,300
 Bepsii,100
-Yangyang (WuWa),100
+Yangyang (WuWa),200
 S® Gemini ,0
 Fat pony/tomato(dnc) (=) (%),100
 Lee (Arknights),0
+xBaby FIZAsa,100
+Qtella makan bun... ,0
+Qtella makan bunga c+h,600
+#-HAEIEKCF,1000
