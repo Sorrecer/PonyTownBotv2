@@ -8,7 +8,7 @@ import time, random, re, pyautogui, pytesseract, os, requests, subprocess, rpg, 
 BotName = "Rick's Bot"
 Admin_name = ['I AM RICK']
 prefix = ['+', '>', '-']
-apikey="AIzaSyDIdODxrZYkAnzKAic1eR3NVSG69WVSRKA"
+apikey=""
 pytesseract.pytesseract.tesseract_cmd = r'D:\Tesseract\tesseract.exe'
 ###======= Bot Configuration =======###
 
