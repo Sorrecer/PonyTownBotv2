@@ -13,13 +13,8 @@ import jsonpickle
 
 BotName = "Rick's Bot"
 Admin_name = ['I AM RICK']
-<<<<<<< HEAD
-prefix = ['+', '>', '-', '.']
 apikey="AIzaSyDIdODxrZYkAnzKAic1eR3NVSG69WVSRKA"
-=======
 prefix = ['+', '>', '-']
-apikey=""
->>>>>>> 04ea405ea28d704fd76890e9a410444435d4c20d
 pytesseract.pytesseract.tesseract_cmd = r'D:\Tesseract\tesseract.exe'
 
 with open(f'conversation.txt', 'r') as file:
@@ -100,7 +95,7 @@ def send_ceks_in_parts(ceks):
     time.sleep(1)
 
 
-async def cai(username, char_id='W0PLQrOwKZh2BgjzdqLhH5-laORy4-LDzLl2J4--3rk'):
+async def cai(username, char_id='yXxZ_Z_ZEjzsBaZgqfUrPToL8NzpeN-NqDTRTTEilTM'):
     bye = False
     client = aiocai.Client('335b4d5c1c3fa11ae78060646e343d8a91c434a6')
 
