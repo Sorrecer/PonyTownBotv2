@@ -3,17 +3,54 @@ from datetime import datetime
 from characterai import aiocai
 import asyncio
 import time, random, re, pyautogui, pytesseract, os, requests, subprocess, rpg, sys, hashlib
+import pathlib
+import textwrap
+import google.generativeai as genai
+from google.generativeai.types import HarmCategory, HarmBlockThreshold
+import jsonpickle
+
 ###======= Bot Configuration =======###
 
 BotName = "Rick's Bot"
 Admin_name = ['I AM RICK']
-prefix = ['+', '>', '-']
+prefix = ['+', '>', '-', '.']
 apikey="AIzaSyDIdODxrZYkAnzKAic1eR3NVSG69WVSRKA"
 pytesseract.pytesseract.tesseract_cmd = r'D:\Tesseract\tesseract.exe'
-###======= Bot Configuration =======###
+
+with open(f'conversation.txt', 'r') as file:
+    h = file.read()
+    if h == '':
+        chat_history = []
+    else:
+        chat_history = jsonpickle.decode(h)
+###======= Gemini Configuration =======###
+
+prompt = ("Anda akan memulai percakapan dengan beberapa orang. "
+          "Format pesan yang dikirim oleh saya adalah: [nama] (yang orang tersebut bicarakan). "
+           "respon dengan sesingkat mungkin, maksimal 1 kalimat dengan 72 karakter)"
+           "gunakan aksen indonesia gaul, santai, humoris dan ramah."
+           "anda dilarang mengetik /leave dan /unstuck. karena jika mengetik itu akan menghentikan program")
+# prompt = "awali segala pesan dengan 'oke bepsi!'"
+genai.configure(api_key=apikey)
+model = genai.GenerativeModel('gemini-1.5-flash',
+                              system_instruction=prompt,
+                              safety_settings={
+                                HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+                                HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+                                HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+                                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE
+})
+chat = model.start_chat(history = chat_history)
+###======= Setup =======##
 
 
-###======= Setup =======###
+def bard(username, message):    
+    respond = chat.send_message(f'[{username}] {message}')
+
+    
+    send_ceks_in_parts(respond.text.strip())
+    # print(chat.history)
+
 # try:
 #     import pytesseract
 # except ModuleNotFoundError:
@@ -33,9 +70,12 @@ pytesseract.pytesseract.tesseract_cmd = r'D:\Tesseract\tesseract.exe'
 def send_ceks_in_parts(ceks):
     max_length = 70
     # Ganti enter dengan spasi dan hapus spasi ekstra di awal/akhir teks
+    # ceks = ceks.replace('\n\n\n', ' ').strip()
+    # ceks = ceks.replace('\n\n', ' ').strip()
     ceks = ceks.replace('\n', ' ').strip()
-    words = ceks.split(' ')
-    
+    words = ceks.split()
+    print(ceks)
+    print(words)
     current_part = []
     current_length = 0
 
@@ -52,28 +92,38 @@ def send_ceks_in_parts(ceks):
     # Kirim bagian terakhir jika ada kata yang tersisa
     if current_part:
         kirim_pesan(' '.join(current_part))
+    time.sleep(1)
 
-async def cai(username):
+
+async def cai(username, char_id='W0PLQrOwKZh2BgjzdqLhH5-laORy4-LDzLl2J4--3rk'):
     bye = False
-    char = '4WOVrCApi4JYwfYwU2e5eDeFalLOkGBw6IfUZPX1XVQ'
-
     client = aiocai.Client('335b4d5c1c3fa11ae78060646e343d8a91c434a6')
 
     me = await client.get_me()
 
-    async with await client.connect() as chat:
-        new, answer = await chat.new_chat(
-            char, me.id
-        )
+    # Load the chat ID from a text file if it exists
+    chat_id = load_chat_id(char_id)
 
-        send_ceks_in_parts(f'"{answer.text}"')
-        
-        while bye == False:
+
+    async with await client.connect() as chat:
+        if chat_id:
+            # Reuse the existing chat session
+            # chat_session = await chat.get_chat(char_id, chat_id)
+            pass
+        else:
+            # Create a new chat session if no chat ID is available
+            chat_session, answer = await chat.new_chat(char_id, me.id)
+            # Save the new chat ID for future use
+            chat_id = chat_session.chat_id
+            save_chat_id(char_id, chat_id)
+            send_ceks_in_parts(f'"{answer.text}"')
+
+        while not bye:
             screen = pyautogui.screenshot()
             screen = screen.crop((110, 500, 1100, 800))
             text_cmd = pytesseract.image_to_string(screen)
             # Stop chatting
-            if "bye gojo" in text_cmd.lower():
+            if "bye bepis" in text_cmd.lower():
                 bye = True
             else:
                 # Define the regex pattern
@@ -87,9 +137,27 @@ async def cai(username):
                     
                     # Sending message to Character AI
                     message = await chat.send_message(
-                        char, new.chat_id, text
+                        char_id, chat_id, text
                     )
                     send_ceks_in_parts(f'"{message.text}"')
+
+    return chat_id  # Return the chat ID for future use
+
+def load_chat_id(char_id):
+    try:
+        with open(f'{char_id}_chat_id.txt', 'r') as file:
+            return file.read().strip()
+    except FileNotFoundError:
+        return None
+
+def save_chat_id(char_id, chat_id):
+    with open(f'{char_id}_chat_id.txt', 'w') as file:
+        file.write(chat_id)
+
+# Example usage
+# last_chat_id = await cai(username='example_user')
+# To continue the chat later
+# await cai(username='example_user')
 
 
 def steal(name1, name2):
@@ -550,7 +618,7 @@ def gemini(meseg):
                 "role": "user",
                 "parts": [
                     {
-                        "text": meseg + ". (jawab dengan singkat 1-2 kalimat, kurang dari 200 karakter)"
+                        "text": meseg + ". (jawab dengan singkat 1-2 kalimat, kurang dari 72 karakter)"
                     }
                 ]
             }
@@ -708,6 +776,18 @@ class Cmd:
         else:
             menu()
 
+    def bardai(self, match):
+        username = match.group(1)
+        message = match.group(3)
+        bard(username, message)
+    
+    def save(self, match):
+        chat_history = jsonpickle.encode(chat.history, True)
+        with open('conversation.txt', 'w') as file:
+            file.writelines(chat_history)
+
+
+
     def talkai(self, match):
         username = match.group(1)
         asyncio.run(cai(username))
@@ -787,12 +867,14 @@ class Cmd:
                 time.sleep(1)
 
                 if player_total == 21:
-                    kirim_pesan("blackjack 21.")
+                    kirim_pesan("blackjack 21. duit +500")
+                    add_gacor(username, 500)
                     loss = True
                     break
                 
                 if player_total > 21:
-                    kirim_pesan("You Lose! Busted!")
+                    kirim_pesan("You Lose! Busted! Anda bangkrut")
+                    add_gacor(username, 0)
                     loss = True
                     break
 
@@ -995,7 +1077,7 @@ class Cmd:
                 "Sarung Tangan", "Limbah Pembersihan Ikan", "Kantong Plastik", 
                 "Wadah Minuman", "Kemasan Peralatan Pancing", "Kotak Peralatan yang Rusak", 
                 "Pisau Pemotong", "Pelampung Plastik untuk Pancing"
-            ]
+                ]
 
 
         # jika belum strike
@@ -1348,53 +1430,61 @@ class Cmd:
 #     ]
 #     p = random.choice(idle_actions)
 #     kirim_pesan(p)
-
 if  __name__ == '__main__':
-    import pyautogui, pytesseract, base64, requests, time, subprocess, random, os, re
-    from datetime import datetime
-    from PIL import Image
-    while True:
-        screen = pyautogui.screenshot()
-        screen = screen.crop((110, 500, 1100, 660))
-        text_cmd = pytesseract.image_to_string(screen)
-        print(text_cmd)
-        run = Cmd()
-        command('menu', run.menu)
-        # command('nama_keren', run.nama_keren)
-        command('day', run.day)
-        command('dice', run.dice)
-        command('owner', run.owner)
-        # command('quotes', run.quotes)
-        # command('puja', run.puja)
-        command('py', run.py)
-        command('ask', run.ai)
-        command('fun', run.fun)
-        command('games', run.games)
-        command('slots', run.slots)
-        command('cointoss', run.cointoss)
-        command('blackjack', run.blackjack)
-        command('roulette', run.roulette)
-        command('furry', run.furry)
-        command('love', run.love)
-        command('others', run.others)
-        command('about', run.about)
-        command('talk', run.talk)
-        command('steal', run.steal)
-        command('news', run.fakenews)
-        command('fish', run.fish)
-        command('form', run.form)
-        command('gay', run.gay)
-        command('check', run.check)
-        command('suit', run.guntingbatukertas)
-        command('power', run.powers)
-        command('hello', run.talkai)
-        command('fact', run.funfact)
-        command('history', run.history)
-        # command('sit', run.sit)
-        # command('stand', run.stand)
-        # command('sleep', run.sleep)
-        # command('lie', run.lie)
-        # command('lambai', run.lambai)
-        # command('back', run.back)
-        # command('laugh', run.laugh)
-        # command('kiss', run.laugh)
+    try:
+        import pyautogui, pytesseract, base64, requests, time, subprocess, random, os, re
+        from datetime import datetime
+        from PIL import Image
+        print('Bot is running!')
+        while True:
+            screen = pyautogui.screenshot()
+            screen = screen.crop((110, 500, 1100, 660))
+            text_cmd = pytesseract.image_to_string(screen)
+            # print(text_cmd)
+            run = Cmd()
+            command('menu', run.menu)
+            # command('nama_keren', run.nama_keren)
+            command('day', run.day)
+            command('dice', run.dice)
+            command('owner', run.owner)
+            # command('quotes', run.quotes)
+            # command('puja', run.puja)
+            command('py', run.py)
+            command('ask', run.ai)
+            command('fun', run.fun)
+            command('games', run.games)
+            command('slots', run.slots)
+            command('cointoss', run.cointoss)
+            command('blackjack', run.blackjack)
+            command('roulette', run.roulette)
+            command('furry', run.furry)
+            command('love', run.love)
+            command('others', run.others)
+            command('about', run.about)
+            command('talk', run.talk)
+            command('steal', run.steal)
+            command('news', run.fakenews)
+            command('fish', run.fish)
+            command('form', run.form)
+            command('gay', run.gay)
+            command('check', run.check)
+            command('suit', run.guntingbatukertas)
+            command('power', run.powers)
+            command('hello', run.talkai)
+            command('fact', run.funfact)
+            command('history', run.history)
+            command('p', run.bardai)
+            # command('savebard', run.save)
+            # command('sit', run.sit)
+            # command('stand', run.stand)
+            # command('sleep', run.sleep)
+            # command('lie', run.lie)
+            # command('lambai', run.lambai)
+            # command('back', run.back)
+            # command('laugh', run.laugh)
+            # command('kiss', run.laugh)
+    except KeyboardInterrupt:
+        chat_history = jsonpickle.encode(chat.history, True)
+        with open('conversation.txt', 'w') as file:
+            file.writelines(chat_history)
+            file.flush()
