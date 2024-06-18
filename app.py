@@ -25,11 +25,13 @@ with open(f'conversation.txt', 'r') as file:
         chat_history = jsonpickle.decode(h)
 ###======= Gemini Configuration =======###
 
-prompt = ("Anda akan memulai percakapan dengan beberapa orang. "
+prompt = ("Anda akan memulai percakapan dengan beberapa orang player di game pony town."
           "Format pesan yang dikirim oleh saya adalah: [nama] (yang orang tersebut bicarakan). "
            "respon dengan sesingkat mungkin, maksimal 1 kalimat dengan 72 karakter)"
            "gunakan aksen indonesia gaul, santai, humoris dan ramah."
-           "anda dilarang mengetik /leave dan /unstuck. karena jika mengetik itu akan menghentikan program")
+           "anda dilarang mengetik /leave dan /unstuck. karena jika mengetik itu akan menghentikan program"
+           "nama orang pembuatmu adalah yang bernama 'Bepsii'"
+           "bepsii adalah pony putih yang terinspirasi dari pepsi. Punya sifat jahil, suka debat, dan kepo")
 # prompt = "awali segala pesan dengan 'oke bepsi!'"
 genai.configure(api_key=apikey)
 model = genai.GenerativeModel('gemini-1.5-flash',
@@ -1431,7 +1433,6 @@ class Cmd:
 #     p = random.choice(idle_actions)
 #     kirim_pesan(p)
 if  __name__ == '__main__':
-<<<<<<< HEAD
     try:
         import pyautogui, pytesseract, base64, requests, time, subprocess, random, os, re
         from datetime import datetime
@@ -1489,53 +1490,3 @@ if  __name__ == '__main__':
         with open('conversation.txt', 'w') as file:
             file.writelines(chat_history)
             file.flush()
-=======
-    import pyautogui, pytesseract, base64, requests, time, subprocess, random, os, re
-    from datetime import datetime
-    from PIL import Image
-    while True:
-        screen = pyautogui.screenshot()
-        screen = screen.crop((110, 500, 1100, 660))
-        text_cmd = pytesseract.image_to_string(screen)
-        print(text_cmd)
-        run = Cmd()
-        command('menu', run.menu)
-        # command('nama_keren', run.nama_keren)
-        command('day', run.day)
-        command('dice', run.dice)
-        command('owner', run.owner)
-        # command('quotes', run.quotes)
-        # command('puja', run.puja)
-        command('py', run.py)
-        command('ask', run.ai)
-        command('fun', run.fun)
-        command('games', run.games)
-        command('slots', run.slots)
-        command('cointoss', run.cointoss)
-        command('blackjack', run.blackjack)
-        command('roulette', run.roulette)
-        command('furry', run.furry)
-        command('love', run.love)
-        command('others', run.others)
-        command('about', run.about)
-        command('talk', run.talk)
-        command('steal', run.steal)
-        command('news', run.fakenews)
-        command('fish', run.fish)
-        command('form', run.form)
-        command('gay', run.gay)
-        command('check', run.check)
-        command('suit', run.guntingbatukertas)
-        command('power', run.powers)
-        command('hello', run.talkai)
-        command('fact', run.funfact)
-        command('history', run.history)
-        # command('sit', run.sit)
-        # command('stand', run.stand)
-        # command('sleep', run.sleep)
-        # command('lie', run.lie)
-        # command('lambai', run.lambai)
-        # command('back', run.back)
-        # command('laugh', run.laugh)
-        # command('kiss', run.laugh)
->>>>>>> 04ea405ea28d704fd76890e9a410444435d4c20d
