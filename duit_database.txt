@@ -1,5 +1,5 @@
 name,duit
-Gemini,1200
+Gemini,1800
 Wolpi,2500
 angelina,0
 Otak petrik star,0
@@ -31,3 +31,7 @@ ejeeji,1000
 ® Gemini,1100
 daisy,1600
 hehei not bat,100
+V Bitz =,0
+JV yukthiyasa,1000
+Kiaww need friend,0
+Gabut cok - x-,100

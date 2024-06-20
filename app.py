@@ -8,7 +8,54 @@ import textwrap
 import google.generativeai as genai
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 import jsonpickle
+###======= Movement Variable =======###
+places = ["A","B","C","D","E","S","ANTRI","KASIR","DAPUR","EXIT","T1","T2"]
+num = {places[i]:i for i in range(len(places))}
 
+graph = [[None for j in range(len(places))] for i in range(len(places))]
+def assign(pos, dest, dirs):
+    graph[num[pos]][num[dest]] = dirs
+    rev = [(-i[0],-i[1]) for i in dirs]
+    rev.reverse()
+    graph[num[dest]][num[pos]] = rev
+    
+
+assign("A", "B", [(2600,0)])
+assign("A", "D", [(0,-1400)])
+assign("A", "ANTRI", [(0,500), (750,0)])
+assign("B", "S", [(0,-1400)])
+assign("B", "C", [(2600,0)])
+assign("C", "E", [(0,-1400)])
+assign("D", "S", [(2600,0)])
+assign("S", "E", [(2600,0)])
+assign("D", "EXIT", [(0,-1800)])
+assign("E", "EXIT", [(0,-500)])
+
+assign("B", "T1", [(1000,0)])
+assign("C", "T1", [(-1600,0)])
+
+assign("T1", "T2", [(0,500), (-650,0)])
+assign("T2", "KASIR", [(-1400,0)])
+assign("T2", "DAPUR", [(0,800), (2000,0)])
+
+def bfs(pos, dest):
+    pos = num[pos]
+    dest = num[dest]
+    q = [[pos]]
+    while True:
+        now = q.pop(0)
+        if now[-1] == dest:
+            dirs = now
+            break
+        else:
+            for i in range(len(graph[now[-1]])):
+                if graph[now[-1]][i] != None and i not in now:
+                    q.append(now + [i])
+    mov = []
+    for i in range(len(dirs)-1):
+        mov += graph[dirs[i]][dirs[i+1]]
+    return mov
+    
 ###======= Bot Configuration =======###
 
 BotName = "Rick's Bot"
@@ -24,14 +71,36 @@ with open(f'conversation.txt', 'r') as file:
     else:
         chat_history = jsonpickle.decode(h)
 ###======= Gemini Configuration =======###
-
+# prompt = ("Anda akan mengoperasikan bot untuk bergerak sesuai dengan pesan orang"
+#           "Format pesan yang dikirim oleh saya adalah: [nama] (yang orang tersebut bicarakan)."
+#           "command untuk bergerak adalah [prefix] [arah][lama berjalan]"
+#           "prefix command yaitu .m sedangkan arah yaitu u,d,l,r. bersaran lama berjalan adalah milisekon"
+#           "contoh command yaitu .m l500 maka bot akan bergerak ke kiri selama 500 milisekon"
+#           "tugas anda adalah merespon dengan commmand yang sesuai, contohnya jika ada seseorang yang berbicara "
+#           "saya ingin robotnya bergerak ke kiri satu detik, maka anda akan merespon dengan .m l500"
+#           "pergerakan juga bisa sequensial, contohnya .m r500 d500 l500 u500, maka bot tersebut akan bergerak sesuai urutan"
+#           "jika ada yang menyampaikan untuk memutari map, maka commandnya adalah .m l2800 u1400 r5400 d1400 l2800")
 prompt = ("Anda akan memulai percakapan dengan beberapa orang player di game pony town."
           "Format pesan yang dikirim oleh saya adalah: [nama] (yang orang tersebut bicarakan). "
-           "respon dengan sesingkat mungkin, maksimal 1 kalimat dengan 72 karakter)"
+           "respon dengan sesingkat mungkin, maksimal 1 kalimat dengan 72 karakter)."
            "gunakan aksen indonesia gaul, santai, humoris dan ramah."
-           "anda dilarang mengetik /leave dan /unstuck. karena jika mengetik itu akan menghentikan program"
-           "nama orang pembuatmu adalah yang bernama 'Bepsii'"
-           "bepsii adalah pony putih yang terinspirasi dari pepsi. Punya sifat jahil, suka debat, dan kepo")
+           "anda dilarang mengetik /leave dan /unstuck. karena jika mengetik itu akan menghentikan program."
+           "nama orang pembuatmu adalah yang bernama 'Bepsii'."
+           "bepsii adalah pony putih yang terinspirasi dari pepsi. Punya sifat jahil, suka debat, dan kepo."
+           "teman teman bepsi ada wud, celor, gerit, kepin, yuna, zahra, yukthi, astrum, misol, soya, anwar, wolpi, wolep, Qira."
+           "sifat sifat teman bepis adalah sebagai berikut :"
+           "wud = sedikit bicara tapi tajam."
+           "celor = ceplas ceplos, suka bergaul."
+           "gerit = ramah, humoris."
+           "yuna = cool, pendiem."
+           "zahra = ramah, anggun, ceweknya anwar."
+           "yukthi = kocak, pekerja."
+           "astrum = humoris, cowoknya gerit."
+           "anwar = pendiam, suka pony."
+           "misol = humoris, santai."
+           "soya = suka menyimak, aktif."
+           "wolpi = suka menyimak, ceweknya wolep."
+           "wolep = Furry terseksi di bakery.")
 # prompt = "awali segala pesan dengan 'oke bepsi!'"
 genai.configure(api_key=apikey)
 model = genai.GenerativeModel('gemini-1.5-flash',
@@ -43,7 +112,145 @@ model = genai.GenerativeModel('gemini-1.5-flash',
                                 HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE
 })
 chat = model.start_chat(history = chat_history)
+
+key_map = {
+        'w': 'w',  # Up
+        's': 's',  # Down
+        'a': 'a',  # Left
+        'd': 'd'   # Right
+    }
+pos = 'S'
 ###======= Setup =======##
+
+coord = { [char for char in ["A", "B", "C", "D", "S", "E"]][i] :
+          [(y,x) for y in range(2) for x in range(3)][i] for i in range(6)}
+
+def reset():
+    global pos
+    pos = 'S'
+    kirim_pesan('Posisi telah direset')
+
+def move_bot(commands):
+    global pos
+    if commands in places:
+        movement = bfs(pos, commands)
+        for step in movement:
+            x,y = step
+            if y!=0:
+                key = 'w' if y>0 else 's'
+                pyautogui.keyDown(key)
+                time.sleep(abs(y)/1000)
+                pyautogui.keyUp(key)
+            if x!=0:
+                key = 'd' if x>=0 else 'a'
+                pyautogui.keyDown(key)
+                time.sleep(abs(x)/1000)
+                pyautogui.keyUp(key)
+        pos = commands
+    if commands == 'ANTRI':
+        kirim_pesan("BANG BELI ROTI!!!!!!!!!!!!!!!11111")
+    # antri = False
+    # if pos == 'Q' and commands != 'Q':
+    #     # jalankan ke A
+    #     key = 'a'
+    #     pyautogui.keyDown(key)
+    #     time.sleep(0.8)
+    #     pyautogui.keyUp(key)
+    #     key = 's'
+    #     pyautogui.keyDown(key)
+    #     time.sleep(0.5)
+    #     pyautogui.keyUp(key)
+    #     pos = "A"
+    #     pass
+    # if commands == 'Q' and pos != 'Q':
+    #     commands = 'A'
+    #     antri = True
+    # if commands in coord:
+    #     kirim_pesan(f'Berjalan menuju titik {commands}')
+    #     y = coord[commands][0] - coord[pos][0]
+    #     x = coord[commands][1] - coord[pos][1]
+    #     if y!=0 :
+    #         if y>0 :
+    #             key = 's'
+    #         elif y<0 :
+    #             key = 'w'
+    #         pyautogui.keyDown(key)
+    #         time.sleep(abs(y)*1.4)
+    #         pyautogui.keyUp(key)
+    #     if x!=0:
+    #         if x>0 :
+    #             key = 'd'
+    #         elif x<0 :
+    #             key = 'a'
+    #         pyautogui.keyDown(key)
+    #         time.sleep(abs(x)*2.6)
+    #         pyautogui.keyUp(key)
+    #     if antri == True:
+    #         kirim_pesan('Menuju Antrean')
+    #         key = 'w'
+    #         pyautogui.keyDown(key)
+    #         time.sleep(0.5)
+    #         pyautogui.keyUp(key)
+    #         key = 'd'
+    #         pyautogui.keyDown(key)
+    #         time.sleep(0.8)
+    #         pyautogui.keyUp(key)
+    #         kirim_pesan('BANG BELI ROTI!!!!!!!!!!!!!!!!!!!!!!!!!!111111111111111111')
+    #         pos = "Q"
+    #     if antri == False:
+    #         pos = commands
+    # # match commands:
+    #     # case "A" : 
+    #     #     pos = "A"
+    #     #     pass
+    #     # case "B" : 
+    #     #     pos ="B"
+    #     #     pass
+    #     # case "C" : 
+    #     #     pos ="C"
+    #     #     pass
+    #     # case "D" : 
+    #     #     pos ="D"
+    #     #     pass
+    #     # case "S" : 
+    #     #     pos ="S"
+    #     #     pass
+    #     # case "E" : 
+    #     #     pos ="E"
+    #     #     pass
+    #     # case "Q" : 
+    #     #     pos ="Q"
+    #     #     pass
+    #     # case "keluar" : 
+    #     #     pos = "keluar"
+    #     #     pass
+    # # Pemetaan arah ke tombol WASD
+    
+    # # Pisahkan perintah berdasarkan spasi
+    # else :
+    #     steps = commands.split()
+    #     kirim_pesan("Oke")
+    #     for command in steps:
+    #         if not command or len(command) < 2:
+    #             kirim_pesan(f"Command salah.")
+    #             return
+    #         direction = command[0] # Mengambil arah
+    #         try:
+    #             duration_ms = int(command[1:])  # Mengambil durasi
+    #         except ValueError:
+    #             kirim_pesan(f"Command salah.")
+    #             return
+    #         if direction not in key_map:
+    #             kirim_pesan(f"Command salah")
+    #             return
+    #         key = key_map[direction]
+    #         duration_s = duration_ms / 1000.0  # Mengubah durasi ke detik
+
+    #         print(f"Pressing '{key}' for {duration_s} seconds.")  # Debug info
+            
+    #         pyautogui.keyDown(key)
+    #         time.sleep(duration_s)
+    #         pyautogui.keyUp(key)
 
 
 def bard(username, message):    
@@ -97,7 +304,7 @@ def send_ceks_in_parts(ceks):
     time.sleep(1)
 
 
-async def cai(username, char_id='yXxZ_Z_ZEjzsBaZgqfUrPToL8NzpeN-NqDTRTTEilTM'):
+async def cai(username, char_id='il_JQzc-97PwGRjuqsNEGkSSfzWFpPNR_O04Ax4GIbw'):
     bye = False
     client = aiocai.Client('335b4d5c1c3fa11ae78060646e343d8a91c434a6')
 
@@ -782,6 +989,10 @@ class Cmd:
         username = match.group(1)
         message = match.group(3)
         bard(username, message)
+
+    def move(self, match):
+        command = match.group(3)
+        move_bot(command)
     
     def save(self, match):
         chat_history = jsonpickle.encode(chat.history, True)
@@ -1191,6 +1402,9 @@ class Cmd:
         kirim_pesan("Aku Gemini! robot semi-otomatis yang terinspirasi oleh Google Gemini")
         time.sleep(1)
 
+    def resets(self, match):
+        reset()
+
     def talk(self, match):
         talks = [
             "What is my purpose?",
@@ -1313,7 +1527,6 @@ class Cmd:
                 checkduit(username)
             elif tipe == 'orkay':
                 checkOrkay()
-                
     
     def ai(self, match):
         if match.group(3) is None:
@@ -1323,8 +1536,6 @@ class Cmd:
             question = match.group(3)
             ceks = gemini(question)
             send_ceks_in_parts(ceks)
-
-
                 
     # def sit(self, match):
     #     username = match.group(1)
@@ -1409,29 +1620,6 @@ class Cmd:
     #     if username in Admin_name:
     #         kirim_pesan(f"You don't have permission to kick {target}")
             
-# def jokes():
-#     idle_actions = jokes = [
-#     "Kenapa ayam menyebrang jalan? Untuk ke seberang.",
-#     "Dua jam lalu, ikan nabrak mobilku. Shock berat!",
-#     "Pesimis=donat=lubang. Optimis=donat=2 cincin.",
-#     "Programmer ganti lampu? Gak bisa, masalah hardware!",
-#     "Komputer bilang apa ke komputer lain? Gak ada.",
-#     "Udang goreng pakai apa? Balado. Kenapa? Biar udang gak sedih.",
-#     "Beli baju baru, eh kekecilan. Pasti penjualnya kurus.",
-#     "Kalo bebek jatuh, ngomong apa? 'Kwaw!' Kalo jatuh ke got? 'Kwek-kwek!'",
-#     "Kenapa nyamuk kalo gigit suka gatal? Karena dia pake parfum bawang.",
-#     "Kenapa maling kalo ketangkep polisi suka nangis? Karena dia lupa bawa tissue.",
-#     "Kalo ketemu hantu, jangan panik. Cuma bilang, 'Permisi, mau lewat.'", 
-#     "Kenapa Superman pake celana merah? Karena kalo pake celana biru, namanya Spiderman.", 
-#     "Tadi beli semangka, pas dibelah isinya alpukat. Penjualnya bohong!", 
-#     "Kalo lagi diinterview, ditanya 'Kekurangan kamu apa?', jawab aja, 'Kurang gajinya.'", 
-#     "Kalo naik angkot, duduk di mana yg paling aman? Di pangkuan supir.", 
-#     "Kenapa bebek kalo jalan ngelewer? Karena dia ga tau jalan yang benar.",
-#     "Kenapa orang kalo ngomong suka pake bibir? Karena kalo pake telinga, nanti kedengeran.",
-#     "Kalo ada orang jatuh dari pesawat, kenapa dia teriak 'Toloooong'? Karena dia ga bisa bisik.",
-#     ]
-#     p = random.choice(idle_actions)
-#     kirim_pesan(p)
 if  __name__ == '__main__':
     try:
         import pyautogui, pytesseract, base64, requests, time, subprocess, random, os, re
@@ -1442,7 +1630,7 @@ if  __name__ == '__main__':
             screen = pyautogui.screenshot()
             screen = screen.crop((110, 500, 1100, 660))
             text_cmd = pytesseract.image_to_string(screen)
-            # print(text_cmd)
+            print(text_cmd)
             run = Cmd()
             command('menu', run.menu)
             # command('nama_keren', run.nama_keren)
@@ -1476,6 +1664,8 @@ if  __name__ == '__main__':
             command('fact', run.funfact)
             command('history', run.history)
             command('p', run.bardai)
+            command('m', run.move)
+            command('reset', run.resets)
             # command('savebard', run.save)
             # command('sit', run.sit)
             # command('stand', run.stand)
@@ -1485,6 +1675,7 @@ if  __name__ == '__main__':
             # command('back', run.back)
             # command('laugh', run.laugh)
             # command('kiss', run.laugh)
+
     except KeyboardInterrupt:
         chat_history = jsonpickle.encode(chat.history, True)
         with open('conversation.txt', 'w') as file:
