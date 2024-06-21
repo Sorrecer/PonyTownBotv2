@@ -10,7 +10,7 @@ Fat pony/tomato(dnc) 7 (*%),100
 Fat pony/tomato(dnc) ©) (©) ,0
 melon Wangy,0
 wip,400
-Bepsii,0
+Bepsii,100
 Yangyang (WuWa),200
 S® Gemini ,0
 Fat pony/tomato(dnc) (=) (%),100
@@ -35,3 +35,4 @@ V Bitz =,0
 JV yukthiyasa,1000
 Kiaww need friend,0
 Gabut cok - x-,100
+Alecya,100

@@ -54,6 +54,7 @@ def bfs(pos, dest):
     mov = []
     for i in range(len(dirs)-1):
         mov += graph[dirs[i]][dirs[i+1]]
+    kirim_pesan(f'{mov}')
     return mov
     
 ###======= Bot Configuration =======###

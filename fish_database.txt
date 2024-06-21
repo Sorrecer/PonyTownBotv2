@@ -22,7 +22,7 @@ PM [Kecebur got,0,0,0,0,0
 | afk dulu ygy
 29 PM [Kudaranai,0,0,0,0,0
 Yangyang (WuWa),0,1,3,1,2
-Bepsii,0,0,5,4,4
+Bepsii,0,0,5,6,4
 —rio!,1,1,0,2,3
 - =e nerd,0,0,0,0,1
 —tio!,0,0,0,1,0
@@ -74,3 +74,8 @@ Pony #2,0,3,2,2,4
 (Comfy) Woods,0,0,1,0,1
 ¥ Bitz =,0,0,0,1,1
 VJ Bitz =,0,0,0,0,0
+Alecya,0,1,1,0,3
+Alecyal,0,1,0,1,0
+VVEE UA VEE ay aya.
+
+43 AM [Alecya,0,0,0,0,0
