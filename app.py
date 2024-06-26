@@ -61,7 +61,7 @@ def bfs(pos, dest):
 
 BotName = "Rick's Bot"
 Admin_name = ['I AM RICK']
-apikey="AIzaSyDIdODxrZYkAnzKAic1eR3NVSG69WVSRKA"
+apikey="AIzaSyAYhO94KSo0gxmDlgmLzt5WCeLs42BhNXE"
 prefix = ['+', '>', '-']
 pytesseract.pytesseract.tesseract_cmd = r'D:\Tesseract\tesseract.exe'
 
@@ -80,7 +80,7 @@ with open(f'conversation.txt', 'r') as file:
 #           "tugas anda adalah merespon dengan commmand yang sesuai, contohnya jika ada seseorang yang berbicara "
 #           "saya ingin robotnya bergerak ke kiri satu detik, maka anda akan merespon dengan .m l500"
 #           "pergerakan juga bisa sequensial, contohnya .m r500 d500 l500 u500, maka bot tersebut akan bergerak sesuai urutan"
-#           "jika ada yang menyampaikan untuk memutari map, maka commandnya adalah .m l2800 u1400 r5400 d1400 l2800")
+#           "jika ada yang menyampaikan untuk berputar, maka commandnya adalah >m l500 u500 r500 d500")
 prompt = ("Anda akan memulai percakapan dengan beberapa orang player di game pony town."
           "Format pesan yang dikirim oleh saya adalah: [nama] (yang orang tersebut bicarakan). "
            "respon dengan sesingkat mungkin, maksimal 1 kalimat dengan 72 karakter)."
@@ -227,31 +227,31 @@ def move_bot(commands):
     #     #     pass
     # # Pemetaan arah ke tombol WASD
     
-    # # Pisahkan perintah berdasarkan spasi
-    # else :
-    #     steps = commands.split()
-    #     kirim_pesan("Oke")
-    #     for command in steps:
-    #         if not command or len(command) < 2:
-    #             kirim_pesan(f"Command salah.")
-    #             return
-    #         direction = command[0] # Mengambil arah
-    #         try:
-    #             duration_ms = int(command[1:])  # Mengambil durasi
-    #         except ValueError:
-    #             kirim_pesan(f"Command salah.")
-    #             return
-    #         if direction not in key_map:
-    #             kirim_pesan(f"Command salah")
-    #             return
-    #         key = key_map[direction]
-    #         duration_s = duration_ms / 1000.0  # Mengubah durasi ke detik
+    # Pisahkan perintah berdasarkan spasi
+    else :
+        steps = commands.split()
+        kirim_pesan("Oke")
+        for command in steps:
+            if not command or len(command) < 2:
+                kirim_pesan(f"Command salah.")
+                return
+            direction = command[0] # Mengambil arah
+            try:
+                duration_ms = int(command[1:])  # Mengambil durasi
+            except ValueError:
+                kirim_pesan(f"Command salah.")
+                return
+            if direction not in key_map:
+                kirim_pesan(f"Command salah")
+                return
+            key = key_map[direction]
+            duration_s = duration_ms / 1000.0  # Mengubah durasi ke detik
 
-    #         print(f"Pressing '{key}' for {duration_s} seconds.")  # Debug info
+            print(f"Pressing '{key}' for {duration_s} seconds.")  # Debug info
             
-    #         pyautogui.keyDown(key)
-    #         time.sleep(duration_s)
-    #         pyautogui.keyUp(key)
+            pyautogui.keyDown(key)
+            time.sleep(duration_s)
+            pyautogui.keyUp(key)
 
 
 def bard(username, message):    
