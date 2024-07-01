@@ -9,7 +9,7 @@ import google.generativeai as genai
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 import jsonpickle
 ###======= Movement Variable =======###
-places = ["A","B","C","D","E","S","ANTRI","KASIR","DAPUR","EXIT","T1","T2"]
+places = ["A","B","C","D","E","S","ANTRI","KASIR","DAPUR","EXIT","T1","T2", "KURSI"]
 num = {places[i]:i for i in range(len(places))}
 
 graph = [[None for j in range(len(places))] for i in range(len(places))]
@@ -28,6 +28,7 @@ assign("B", "C", [(2600,0)])
 assign("C", "E", [(0,-1400)])
 assign("D", "S", [(2600,0)])
 assign("S", "E", [(2600,0)])
+assign("S", "KURSI", [(100,0), (0,-300)])
 assign("D", "EXIT", [(0,-1800)])
 assign("E", "EXIT", [(0,-500)])
 
@@ -83,7 +84,7 @@ with open(f'conversation.txt', 'r') as file:
 #           "jika ada yang menyampaikan untuk berputar, maka commandnya adalah >m l500 u500 r500 d500")
 prompt = ("Anda akan memulai percakapan dengan beberapa orang player di game pony town."
           "Format pesan yang dikirim oleh saya adalah: [nama] (yang orang tersebut bicarakan). "
-           "respon dengan sesingkat mungkin, maksimal 1 kalimat dengan 72 karakter)."
+           "PENTING = respon segala pertanyaan sesingkat mungkin, maksimal 2 kalimat dengan 144 karakter, kalau bisa hanya dengan 1 kalimat 72 karakter."
            "gunakan aksen indonesia gaul, santai, humoris dan ramah."
            "anda dilarang mengetik /leave dan /unstuck. karena jika mengetik itu akan menghentikan program."
            "nama orang pembuatmu adalah yang bernama 'Bepsii'."
@@ -150,84 +151,9 @@ def move_bot(commands):
         pos = commands
     if commands == 'ANTRI':
         kirim_pesan("BANG BELI ROTI!!!!!!!!!!!!!!!11111")
-    # antri = False
-    # if pos == 'Q' and commands != 'Q':
-    #     # jalankan ke A
-    #     key = 'a'
-    #     pyautogui.keyDown(key)
-    #     time.sleep(0.8)
-    #     pyautogui.keyUp(key)
-    #     key = 's'
-    #     pyautogui.keyDown(key)
-    #     time.sleep(0.5)
-    #     pyautogui.keyUp(key)
-    #     pos = "A"
-    #     pass
-    # if commands == 'Q' and pos != 'Q':
-    #     commands = 'A'
-    #     antri = True
-    # if commands in coord:
-    #     kirim_pesan(f'Berjalan menuju titik {commands}')
-    #     y = coord[commands][0] - coord[pos][0]
-    #     x = coord[commands][1] - coord[pos][1]
-    #     if y!=0 :
-    #         if y>0 :
-    #             key = 's'
-    #         elif y<0 :
-    #             key = 'w'
-    #         pyautogui.keyDown(key)
-    #         time.sleep(abs(y)*1.4)
-    #         pyautogui.keyUp(key)
-    #     if x!=0:
-    #         if x>0 :
-    #             key = 'd'
-    #         elif x<0 :
-    #             key = 'a'
-    #         pyautogui.keyDown(key)
-    #         time.sleep(abs(x)*2.6)
-    #         pyautogui.keyUp(key)
-    #     if antri == True:
-    #         kirim_pesan('Menuju Antrean')
-    #         key = 'w'
-    #         pyautogui.keyDown(key)
-    #         time.sleep(0.5)
-    #         pyautogui.keyUp(key)
-    #         key = 'd'
-    #         pyautogui.keyDown(key)
-    #         time.sleep(0.8)
-    #         pyautogui.keyUp(key)
-    #         kirim_pesan('BANG BELI ROTI!!!!!!!!!!!!!!!!!!!!!!!!!!111111111111111111')
-    #         pos = "Q"
-    #     if antri == False:
-    #         pos = commands
-    # # match commands:
-    #     # case "A" : 
-    #     #     pos = "A"
-    #     #     pass
-    #     # case "B" : 
-    #     #     pos ="B"
-    #     #     pass
-    #     # case "C" : 
-    #     #     pos ="C"
-    #     #     pass
-    #     # case "D" : 
-    #     #     pos ="D"
-    #     #     pass
-    #     # case "S" : 
-    #     #     pos ="S"
-    #     #     pass
-    #     # case "E" : 
-    #     #     pos ="E"
-    #     #     pass
-    #     # case "Q" : 
-    #     #     pos ="Q"
-    #     #     pass
-    #     # case "keluar" : 
-    #     #     pos = "keluar"
-    #     #     pass
-    # # Pemetaan arah ke tombol WASD
-    
-    # Pisahkan perintah berdasarkan spasi
+    if commands == 'KURSI':
+        kirim_pesan("/sit")
+        kirim_pesan("ahhhh mntap")
     else :
         steps = commands.split()
         kirim_pesan("Oke")

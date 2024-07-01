@@ -1,5 +1,5 @@
 name,mythical,legendary,uncommon,common,trash
-Gemini,0,2,10,8,6
+Gemini,0,3,10,8,6
 wolpi,1,4,12,31,10
 | Conqueror sekai |,0,0,9,12,7
 | Conqueror sekai | #2,0,0,9,8,5
@@ -22,7 +22,7 @@ PM [Kecebur got,0,0,0,0,0
 | afk dulu ygy
 29 PM [Kudaranai,0,0,0,0,0
 Yangyang (WuWa),0,1,3,1,2
-Bepsii,0,0,5,6,4
+Bepsii,0,0,5,8,4
 —rio!,1,1,0,2,3
 - =e nerd,0,0,0,0,1
 —tio!,0,0,0,1,0

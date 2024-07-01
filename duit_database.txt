@@ -36,3 +36,5 @@ JV yukthiyasa,1000
 Kiaww need friend,0
 Gabut cok - x-,100
 Alecya,100
+RandSfk,100
+05,0
