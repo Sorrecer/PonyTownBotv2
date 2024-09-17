@@ -132,52 +132,49 @@ def reset():
     pos = 'S'
     kirim_pesan('Posisi telah direset')
 
-def move_bot(commands):
-    global pos
-    if commands in places:
-        movement = bfs(pos, commands)
-        for step in movement:
-            x,y = step
-            if y!=0:
-                key = 'w' if y>0 else 's'
-                pyautogui.keyDown(key)
-                time.sleep(abs(y)/1000)
-                pyautogui.keyUp(key)
-            if x!=0:
-                key = 'd' if x>=0 else 'a'
-                pyautogui.keyDown(key)
-                time.sleep(abs(x)/1000)
-                pyautogui.keyUp(key)
-        pos = commands
-    if commands == 'ANTRI':
-        kirim_pesan("BANG BELI ROTI!!!!!!!!!!!!!!!11111")
-    if commands == 'KURSI':
-        kirim_pesan("/sit")
-        kirim_pesan("ahhhh mntap")
-    else :
-        steps = commands.split()
-        kirim_pesan("Oke")
-        for command in steps:
-            if not command or len(command) < 2:
-                kirim_pesan(f"Command salah.")
-                return
-            direction = command[0] # Mengambil arah
-            try:
-                duration_ms = int(command[1:])  # Mengambil durasi
-            except ValueError:
-                kirim_pesan(f"Command salah.")
-                return
-            if direction not in key_map:
-                kirim_pesan(f"Command salah")
-                return
-            key = key_map[direction]
-            duration_s = duration_ms / 1000.0  # Mengubah durasi ke detik
+# def move_bot(commands):
+#     global pos
+#     if commands in places:
+#         movement = bfs(pos, commands)
+#         for step in movement:
+#             x,y = step
+#             if y!=0:
+#                 key = 'w' if y>0 else 's'
+#                 pyautogui.keyDown(key)
+#                 time.sleep(abs(y)/1000)
+#                 pyautogui.keyUp(key)
+#             if x!=0:
+#                 key = 'd' if x>=0 else 'a'
+#                 pyautogui.keyDown(key)
+#                 time.sleep(abs(x)/1000)
+#                 pyautogui.keyUp(key)
+#         pos = commands
+#     if commands == 'ANTRI':
+#         kirim_pesan("BANG BELI ROTI!!!!!!!!!!!!!!!11111")
+#     if commands == 'KURSI':
+#         kirim_pesan("/sit")
+#         kirim_pesan("ahhhh mntap")
+#     else :
+#         steps = commands.split()
+#         kirim_pesan("Oke")
+#         for command in steps:
+#             if not command or len(command) < 2:
+#                 return
+#             direction = command[0] # Mengambil arah
+#             try:
+#                 duration_ms = int(command[1:])  # Mengambil durasi
+#             except ValueError:
+#                 return
+#             if direction not in key_map:
+#                 return
+#             key = key_map[direction]
+#             duration_s = duration_ms / 1000.0  # Mengubah durasi ke detik
 
-            print(f"Pressing '{key}' for {duration_s} seconds.")  # Debug info
+#             print(f"Pressing '{key}' for {duration_s} seconds.")  # Debug info
             
-            pyautogui.keyDown(key)
-            time.sleep(duration_s)
-            pyautogui.keyUp(key)
+#             pyautogui.keyDown(key)
+#             time.sleep(duration_s)
+#             pyautogui.keyUp(key)
 
 
 def bard(username, message):    
@@ -917,9 +914,9 @@ class Cmd:
         message = match.group(3)
         bard(username, message)
 
-    def move(self, match):
-        command = match.group(3)
-        move_bot(command)
+    # def move(self, match):
+    #     command = match.group(3)
+    #     move_bot(command)
     
     def save(self, match):
         chat_history = jsonpickle.encode(chat.history, True)
@@ -1591,7 +1588,7 @@ if  __name__ == '__main__':
             command('fact', run.funfact)
             command('history', run.history)
             command('p', run.bardai)
-            command('m', run.move)
+            # command('m', run.move)
             command('reset', run.resets)
             # command('savebard', run.save)
             # command('sit', run.sit)
