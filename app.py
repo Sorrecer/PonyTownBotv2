@@ -62,7 +62,7 @@ def bfs(pos, dest):
 
 BotName = "Rick's Bot"
 Admin_name = ['I AM RICK']
-apikey="AIzaSyAYhO94KSo0gxmDlgmLzt5WCeLs42BhNXE"
+apikey="APIKEY"
 prefix = ['+', '>', '-']
 pytesseract.pytesseract.tesseract_cmd = r'D:\Tesseract\tesseract.exe'
 
